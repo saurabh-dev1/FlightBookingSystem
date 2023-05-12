@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using FlightBookingSystem.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using FlightBookingSystem.Repositories;
 
 namespace FlightBookingSystem.Controllers
 {
@@ -10,17 +11,20 @@ namespace FlightBookingSystem.Controllers
 	[ApiController]
 	public class FlightController : ControllerBase
 	{
-		private readonly FlightDbContext flightDbContext;
-		public FlightController(FlightDbContext flightDbContext)
+		
+		private readonly IFlightRepository flightRepository;
+
+		public FlightController( IFlightRepository flightRepository)
 		{
-			this.flightDbContext = flightDbContext;
+			
+			this.flightRepository = flightRepository;
 		}
 
 		// Get All Flights
 		[HttpGet]
 		public async Task<IActionResult> GetAllFlight()
 		{
-			var flights = await flightDbContext.Flights.ToListAsync();
+			var flights = await flightRepository.GetAllAsync();
 			return Ok(flights);
 		}
 
@@ -29,7 +33,7 @@ namespace FlightBookingSystem.Controllers
 		[Route("{id}")]
 		public async Task<IActionResult> GetFlight(int id)
 		{
-			var flight = await flightDbContext.Flights.Where(m => m.FlightId == id).FirstOrDefaultAsync();
+			var flight = await flightRepository.GetByIdAsync(id);
 			if (flight == null)
 			{
 				return NotFound();
@@ -40,11 +44,10 @@ namespace FlightBookingSystem.Controllers
 
 		// Create Flight Details
 		[HttpPost]
-		public async Task<IActionResult> Create([FromBody] Flight flight)
+		public async Task<IActionResult> CreateAsync([FromBody] Flight flight)
 		{
-			await flightDbContext.Flights.AddAsync(flight);
-			await flightDbContext.SaveChangesAsync();
-			return Ok(flight);
+			var result = await flightRepository.CreateAsync(flight);
+			return Ok(result);
 		}
 
 		// Updating Flight Details

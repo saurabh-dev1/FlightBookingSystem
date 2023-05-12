@@ -1,4 +1,6 @@
 using FlightBookingSystem.Data;
+using FlightBookingSystem.Repositories;
+using FlightBookingSystem.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<FlightDbContext>(options => 
 options.UseSqlServer(builder.Configuration.GetConnectionString("FlightConnectionString")));
+
+builder.Services.AddScoped<IFlightRepository, FlightRepository>();
 
 var app = builder.Build();
 
