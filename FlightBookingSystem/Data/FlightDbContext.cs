@@ -200,23 +200,9 @@ namespace FlightBookingSystem.Data
 
 
 
-			// For foreign Keys
-			modelBuilder.Entity<SeatAllocation>()
-				.HasKey(sa => sa.PassengerId);
-
-			modelBuilder.Entity<Passenger>()
-				.HasOne(p => p.SeatAllocation)
-				.WithOne(sa => sa.Passenger)
-				.HasForeignKey<SeatAllocation>(sa => sa.PassengerId);
+			
 
 			
-				modelBuilder.Entity<FlightBooking>()
-					.HasKey(fb => fb.PaymentId);
-
-				modelBuilder.Entity<Payment>()
-					.HasOne(p => p.FlightBooking)
-					.WithOne(fb => fb.Payment)
-					.HasForeignKey<FlightBooking>(fb => fb.PaymentId);
 			
 		}
 

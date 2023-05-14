@@ -81,9 +81,18 @@ namespace FlightBookingSystem.Controllers
 			};
 
 			await AdminRepository.CreateAsync(admin);
-		
-			
-			return CreatedAtAction(nameof(GetById), new {id = admin.AdminId}, admin);
+
+			adminDto = new AdminDto
+			{
+				AdminId = admin.AdminId,
+				Name = admin.Name,
+				EmailAddress = admin.EmailAddress,
+				Password = admin.Password
+			};
+
+
+
+			return CreatedAtAction(nameof(GetById), new {id = admin.AdminId}, adminDto);
 		}
 
 		

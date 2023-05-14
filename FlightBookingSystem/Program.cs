@@ -20,6 +20,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("FlightConnection
 
 builder.Services.AddScoped<IFlight, FlightRepository>();
 builder.Services.AddScoped<IAdmin, AdminRepository>();
+builder.Services.AddScoped<IFlightBooking, FlightBookingRepository>();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

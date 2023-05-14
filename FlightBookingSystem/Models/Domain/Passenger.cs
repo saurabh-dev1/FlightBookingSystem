@@ -55,12 +55,11 @@ namespace FlightBookingSystem.Models.Domain
 		public int UserId { get; set; }
 		public int FlightBookingId { get; set; }
 
-		public int SeatAllocationId { get; set; }
+		
 
 		// Navigation Property
 		public User User { get; set; }
 		public FlightBooking FlightBooking { get; set; }
-		public SeatAllocation SeatAllocation { get; set; }
-
+		
 	}
 }

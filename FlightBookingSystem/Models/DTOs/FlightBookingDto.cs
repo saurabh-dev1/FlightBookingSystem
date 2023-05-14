@@ -1,11 +1,11 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
-namespace FlightBookingSystem.Models.Domain
+namespace FlightBookingSystem.Models.DTOs
 {
-	public class FlightBooking
+	public class FlightBookingDto
 	{
-		[Key]
+		
 		public int FlightBookingId { get; set; }
 
 		[Required(ErrorMessage = "Departure City is Required")]
@@ -30,21 +30,7 @@ namespace FlightBookingSystem.Models.Domain
 
 		[Required(ErrorMessage = "No. of Passengers is Required")]
 		[DisplayName("No. of Passengers")]
-		[Range(1,10, ErrorMessage = "Maximum 10 persons allow")]
+		[Range(1, 10, ErrorMessage = "Maximum 10 persons allow")]
 		public int NoOfPassenger { get; set; }
-
-
-		//Foreign Key
-		
-		public int UserId { get; set; }
-		public int FlightId { get; set; }
-		
-
-
-		// Navigation Property
-		public User User { get; set; }
-		public Flight Flight { get; set; }
-		public IEnumerable<Passenger> Passenger { get; set; }
-
 	}
 }

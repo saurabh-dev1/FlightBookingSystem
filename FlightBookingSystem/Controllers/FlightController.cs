@@ -29,6 +29,7 @@ namespace FlightBookingSystem.Controllers
 		{
 			var flights = await flightRepository.GetAllAsync();
 
+			// Map Domain model to DTO
 			var flightDto = new List<FlightDto>();
 			foreach (var flight in flights)
 			{
@@ -172,7 +173,7 @@ namespace FlightBookingSystem.Controllers
 
 		// Create Flight Details
 		[HttpPost]
-		public async Task<IActionResult> CreateAsync([FromBody] FlightDto flightDto)
+		public async Task<IActionResult> Create([FromBody] FlightDto flightDto)
 		{
 			// Map DTO to Domain model
 			var flight = new Flight
@@ -209,7 +210,7 @@ namespace FlightBookingSystem.Controllers
 				TotalSeats = flight.TotalSeats,
 				AvailableSeats = flight.AvailableSeats
 			};
-			return CreatedAtAction(nameof(GetFlight), new { id = flight.FlightId },flight);
+			return CreatedAtAction(nameof(GetFlight), new { id = flight.FlightId },flightDto);
 		}
 
 
