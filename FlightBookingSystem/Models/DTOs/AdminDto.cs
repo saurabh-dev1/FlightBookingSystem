@@ -1,12 +1,10 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
-namespace FlightBookingSystem.Models.Domain
+namespace FlightBookingSystem.Models.DTOs
 {
-	public class Admin
+	public class AdminDto
 	{
-		[Key]
 		public int AdminId { get; set; }
 
 		[Required(ErrorMessage = "Name is Required")]
@@ -24,10 +22,6 @@ namespace FlightBookingSystem.Models.Domain
 		[DataType(DataType.Password)]
 		[MinLength(8, ErrorMessage = "Minimum 8 character Required")]
 		public string Password { get; set; }
-
-		public IEnumerable<User> User { get; set; }
-
-		
 
 	}
 }

@@ -25,15 +25,14 @@ namespace FlightBookingSystem.Models.Domain
 		public bool PaymentStatus { get; set; }
 
 
-		//Foreign Key
-		[Required]
+		//Foreign Key	
 		public int FlightBookingId { get; set; }
 
-		[Required]
-		public int SeatAllocationId { get; set; }
+		public int UserId { get; set; }
 
 		// Navigation Property
-		public FlightBooking FlightBooking  { get; set; }
-		public SeatAllocation SeatAllocation { get; set; }
+		public FlightBooking FlightBooking { get; set; }
+		
+		public User User { get; set; }
 	}
 }

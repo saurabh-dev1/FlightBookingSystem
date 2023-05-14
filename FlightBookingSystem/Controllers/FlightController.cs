@@ -3,18 +3,21 @@ using Microsoft.AspNetCore.Http;
 using FlightBookingSystem.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using FlightBookingSystem.Repositories;
+using FlightBookingSystem.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using FlightBookingSystem.Models.DTOs;
+
 
 namespace FlightBookingSystem.Controllers
 {
-	[Route("api/[controller]")]
+    [Route("api/[controller]")]
 	[ApiController]
+	//[Authorize]
 	public class FlightController : ControllerBase
 	{
 		
-		private readonly IFlightRepository flightRepository;
-
-		public FlightController( IFlightRepository flightRepository)
+		private readonly IFlight flightRepository;
+		public FlightController(IFlight flightRepository)
 		{
 			
 			this.flightRepository = flightRepository;
@@ -25,32 +28,287 @@ namespace FlightBookingSystem.Controllers
 		public async Task<IActionResult> GetAllFlight()
 		{
 			var flights = await flightRepository.GetAllAsync();
-			return Ok(flights);
+
+			var flightDto = new List<FlightDto>();
+			foreach (var flight in flights)
+			{
+				flightDto.Add(new FlightDto()
+				{
+					FlightId = flight.FlightId,
+					FlightName = flight.FlightName,
+					FlightNumber = flight.FlightNumber,
+					DepartureCity = flight.DepartureCity,
+					ArrivalCity = flight.ArrivalCity,
+					DepartureDateTime = flight.DepartureDateTime,
+					ArrivalDateTime = flight.ArrivalDateTime,
+					DepartureCityCode = flight.DepartureCityCode,
+					ArrivalCityCode = flight.ArrivalCityCode,
+					BasePrice = flight.BasePrice,
+					TotalSeats = flight.TotalSeats,
+					AvailableSeats = flight.AvailableSeats
+				});
+			}
+
+			return Ok(flightDto);
 		}
 
-		// Get Flight By Id and Name
+
+
+
+		// Get Flight By Id
 		[HttpGet]
 		[Route("{id}")]
-		public async Task<IActionResult> GetFlight(int id)
+		public async Task<IActionResult> GetFlight([FromRoute] int id)
 		{
 			var flight = await flightRepository.GetByIdAsync(id);
 			if (flight == null)
 			{
 				return NotFound();
 			}
+
+			var flightDto = new FlightDto
+			{
+				FlightId = flight.FlightId,
+				FlightName = flight.FlightName,
+				FlightNumber = flight.FlightNumber,
+				DepartureCity = flight.DepartureCity,
+				ArrivalCity = flight.ArrivalCity,
+				DepartureDateTime = flight.DepartureDateTime,
+				ArrivalDateTime = flight.ArrivalDateTime,
+				DepartureCityCode = flight.DepartureCityCode,
+				ArrivalCityCode = flight.ArrivalCityCode,
+				BasePrice = flight.BasePrice,
+				TotalSeats = flight.TotalSeats,
+				AvailableSeats = flight.AvailableSeats
+			};
+			return Ok(flightDto);
+		}
+
+
+
+
+		// Get Flight By Name
+		[HttpGet]
+		[Route("GetFlightByName/{name}")]
+		public async Task<IActionResult> GetFlightByName([FromRoute] string name)
+		{
+			var flight = await flightRepository.GetByNameAsync(name);
+
+			var flightDto = new List<FlightDto>();
+			foreach (var flights in flight)
+			{
+				flightDto.Add(new FlightDto()
+				{
+					FlightId = flights.FlightId,
+					FlightName = flights.FlightName,
+					FlightNumber = flights.FlightNumber,
+					DepartureCity = flights.DepartureCity,
+					ArrivalCity = flights.ArrivalCity,
+					DepartureDateTime = flights.DepartureDateTime,
+					ArrivalDateTime = flights.ArrivalDateTime,
+					DepartureCityCode = flights.DepartureCityCode,
+					ArrivalCityCode = flights.ArrivalCityCode,
+					BasePrice = flights.BasePrice,
+					TotalSeats = flights.TotalSeats,
+					AvailableSeats = flights.AvailableSeats
+				});
+			}
+
+			if (flight.Count == 0)
+			{
+				return NotFound();
+			}
+			
+			else if (flight.Count == 1)
+			{
+				return Ok(flightDto[0]);
+			}
+			
+
+			return Ok(flightDto);
+		}
+
+
+
+
+		// Get Flight by Cities and time
+		[HttpGet]
+		[Route("GetByCities/{departCity}/{arrivalCity}/{DepartureTime}")]
+		public async Task<IActionResult> GetByCities([FromRoute] string departCity, [FromRoute] string arrivalCity, [FromRoute] DateTime DepartureTime)
+		{
+			var flight = await flightRepository.GetByCitiesAsync(departCity, arrivalCity, DepartureTime);
+
+			var flightDto = new List<FlightDto>();
+			foreach (var flights in flight)
+			{
+				flightDto.Add(new FlightDto()
+				{
+					FlightId = flights.FlightId,
+					FlightName = flights.FlightName,
+					FlightNumber = flights.FlightNumber,
+					DepartureCity = flights.DepartureCity,
+					ArrivalCity = flights.ArrivalCity,
+					DepartureDateTime = flights.DepartureDateTime,
+					ArrivalDateTime = flights.ArrivalDateTime,
+					DepartureCityCode = flights.DepartureCityCode,
+					ArrivalCityCode = flights.ArrivalCityCode,
+					BasePrice = flights.BasePrice,
+					TotalSeats = flights.TotalSeats,
+					AvailableSeats = flights.AvailableSeats
+				});
+			}
+			if (flight.Count == 0)
+			{
+				return NotFound();
+			}
+			else if (flight.Count == 1)
+			{
+				return Ok(flightDto[0]);
+			}
 			return Ok(flight);
 		}
 
 
+
 		// Create Flight Details
 		[HttpPost]
-		public async Task<IActionResult> CreateAsync([FromBody] Flight flight)
+		public async Task<IActionResult> CreateAsync([FromBody] FlightDto flightDto)
 		{
-			var result = await flightRepository.CreateAsync(flight);
-			return Ok(result);
+			// Map DTO to Domain model
+			var flight = new Flight
+			{
+				FlightId = flightDto.FlightId,
+				FlightName = flightDto.FlightName,
+				FlightNumber = flightDto.FlightNumber,
+				DepartureCity = flightDto.DepartureCity,
+				ArrivalCity = flightDto.ArrivalCity,
+				DepartureDateTime = flightDto.DepartureDateTime,
+				ArrivalDateTime = flightDto.ArrivalDateTime,
+				DepartureCityCode = flightDto.DepartureCityCode,
+				ArrivalCityCode = flightDto.ArrivalCityCode,
+				BasePrice = flightDto.BasePrice,
+				TotalSeats = flightDto.TotalSeats,
+				AvailableSeats = flightDto.AvailableSeats
+			};
+
+			await flightRepository.CreateAsync(flight);
+
+			// Map Domain model to DTO
+			flightDto = new FlightDto
+			{
+				FlightId = flight.FlightId,
+				FlightName = flight.FlightName,
+				FlightNumber = flight.FlightNumber,
+				DepartureCity = flight.DepartureCity,
+				ArrivalCity = flight.ArrivalCity,
+				DepartureDateTime = flight.DepartureDateTime,
+				ArrivalDateTime = flight.ArrivalDateTime,
+				DepartureCityCode = flight.DepartureCityCode,
+				ArrivalCityCode = flight.ArrivalCityCode,
+				BasePrice = flight.BasePrice,
+				TotalSeats = flight.TotalSeats,
+				AvailableSeats = flight.AvailableSeats
+			};
+			return CreatedAtAction(nameof(GetFlight), new { id = flight.FlightId },flight);
 		}
 
-		// Updating Flight Details
 
+
+		// Updating Flight Details
+		[HttpPut]
+		[Route("{id}")]
+		public async Task<IActionResult> UpdateAsync([FromRoute] int id ,[FromBody] FlightDto flightDto)
+		{
+			//Map DTO to Domain Models
+			var flight = new Flight
+			{
+				FlightId = flightDto.FlightId,
+				FlightName = flightDto.FlightName,
+				FlightNumber = flightDto.FlightNumber,
+				DepartureCity = flightDto.DepartureCity,
+				ArrivalCity = flightDto.ArrivalCity,
+				DepartureDateTime = flightDto.DepartureDateTime,
+				ArrivalDateTime = flightDto.ArrivalDateTime,
+				DepartureCityCode = flightDto.DepartureCityCode,
+				ArrivalCityCode = flightDto.ArrivalCityCode,
+				BasePrice = flightDto.BasePrice,
+				TotalSeats = flightDto.TotalSeats,
+				AvailableSeats = flightDto.AvailableSeats
+			};
+
+			// Check if flight exist
+			flight = await  flightRepository.UpdateAsync(id, flight);
+			if(flight == null)
+			{
+				return NotFound();
+			}
+
+			//Map DTO to domain model
+				flight.FlightId = flightDto.FlightId;
+				flight.FlightName = flightDto.FlightName;
+				flight.FlightNumber = flightDto.FlightNumber;
+				flight.DepartureCity = flightDto.DepartureCity;
+				flight.ArrivalCity = flightDto.ArrivalCity;
+				flight.DepartureDateTime = flightDto.DepartureDateTime;
+				flight.ArrivalDateTime = flightDto.ArrivalDateTime;
+				flight.DepartureCityCode = flightDto.DepartureCityCode;
+				flight.ArrivalCityCode = flightDto.ArrivalCityCode;
+				flight.BasePrice = flightDto.BasePrice;
+				flight.TotalSeats = flightDto.TotalSeats;
+				flight.AvailableSeats = flightDto.AvailableSeats;
+
+			// Convert Domain model to DTO
+			flightDto = new FlightDto
+			{
+				FlightId = flight.FlightId,
+				FlightName = flight.FlightName,
+				FlightNumber = flight.FlightNumber,
+				DepartureCity = flight.DepartureCity,
+				ArrivalCity = flight.ArrivalCity,
+				DepartureDateTime = flight.DepartureDateTime,
+				ArrivalDateTime = flight.ArrivalDateTime,
+				DepartureCityCode = flight.DepartureCityCode,
+				ArrivalCityCode = flight.ArrivalCityCode,
+				BasePrice = flight.BasePrice,
+				TotalSeats = flight.TotalSeats,
+				AvailableSeats = flight.AvailableSeats
+			};
+
+			return Ok(flightDto);
+		}
+
+
+
+
+		// Delete Flight
+		[HttpDelete]
+		[Route("{id}")]
+		public async Task<IActionResult> DeleteAsync([FromRoute] int id)
+		{
+			
+			var flight = await flightRepository.DeleteAsync(id);
+
+			if(flight == null)
+			{
+				return NotFound();
+			}
+			// Convert Domain model to DTO
+			var flightDto = new FlightDto
+			{
+				FlightId = flight.FlightId,
+				FlightName = flight.FlightName,
+				FlightNumber = flight.FlightNumber,
+				DepartureCity = flight.DepartureCity,
+				ArrivalCity = flight.ArrivalCity,
+				DepartureDateTime = flight.DepartureDateTime,
+				ArrivalDateTime = flight.ArrivalDateTime,
+				DepartureCityCode = flight.DepartureCityCode,
+				ArrivalCityCode = flight.ArrivalCityCode,
+				BasePrice = flight.BasePrice,
+				TotalSeats = flight.TotalSeats,
+				AvailableSeats = flight.AvailableSeats
+			};
+			return Ok(flightDto);
+		}
 	}
 }

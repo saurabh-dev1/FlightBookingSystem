@@ -20,10 +20,12 @@ namespace FlightBookingSystem.Models.Domain
 		public bool SeatAllocated { get; set;}
 
 		//Foreign Key
-		[Required]
-		public int FlightBookingId { get; set; }
+
+		public int PassengerId { get; set; }
 
 		// Navigation Property
-		public FlightBooking FlightBooking { get; set; }
+		public Passenger Passenger { get; set; }
+
+		
 	}
 }

@@ -1,7 +1,11 @@
 ﻿using FlightBookingSystem.Data;
 using FlightBookingSystem.Models.Domain;
+using FlightBookingSystem.Models.DTOs;
+using FlightBookingSystem.Repositories;
+using FlightBookingSystem.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FlightBookingSystem.Controllers
 {
@@ -9,43 +13,79 @@ namespace FlightBookingSystem.Controllers
 	[ApiController]
 	public class AdminController : ControllerBase
 	{
-		private readonly FlightDbContext flightDbContext;
-        public AdminController(FlightDbContext flightDbContext)
+	
+		
+
+		public IAdmin AdminRepository { get; }
+
+		public AdminController(IAdmin AdminRepository)
         {
-            this.flightDbContext = flightDbContext;
-        }
+            
+			this.AdminRepository = AdminRepository;
+		}
 
 		//Get All Admins
         [HttpGet]
-		public IActionResult GetAll()
+		public async Task<IActionResult> GetAll()
 		{
-			var admins = flightDbContext.Admins.ToList();
-			return Ok(admins);
+			var admins =  await AdminRepository.GetAllAsync();
+
+			var adminsDto = new List<AdminDto>();
+			foreach(var admin in admins)
+			{
+				adminsDto.Add(new AdminDto()
+				{
+					AdminId = admin.AdminId,
+					Name = admin.Name,
+					EmailAddress = admin.EmailAddress,
+					Password = admin.Password
+				});
+			}
+
+			return Ok(adminsDto);
 		}
 
-		// Get Single Admin
+		// Get Single Admin by id
 		[HttpGet]
 		[Route("{id}")]
-		public IActionResult GetById([FromRoute] int id)
+		public async Task<IActionResult> GetById([FromRoute] int id)
 		{
-			var admin = flightDbContext.Admins.Where(x => x.AdminId == id).FirstOrDefault();
+			var admin = await AdminRepository.GetByIdAsync(id);
 			if(admin == null)
 			{
 				return NotFound();
 			}
 
-			return Ok(admin);
+			var adminDto = new AdminDto
+			{
+				AdminId = admin.AdminId,
+				Name = admin.Name,
+				EmailAddress = admin.EmailAddress,
+				Password = admin.Password
+			};
+
+			return Ok(adminDto);
 		}
 
 		// Create Admin
 		[HttpPost]
-		public IActionResult Create([FromBody] Admin admin)
+		public async Task<IActionResult> Create([FromBody] AdminDto adminDto)
 		{
-			flightDbContext.Admins.Add(admin);
-			flightDbContext.SaveChanges();
-			return Ok(admin);
+			var admin = new Admin
+			{
+				AdminId = adminDto.AdminId,
+				Name = adminDto.Name,
+				EmailAddress = adminDto.EmailAddress,
+				Password = adminDto.Password
+
+			};
+
+			await AdminRepository.CreateAsync(admin);
+		
+			
+			return CreatedAtAction(nameof(GetById), new {id = admin.AdminId}, admin);
 		}
 
-
+		
 	}
 }

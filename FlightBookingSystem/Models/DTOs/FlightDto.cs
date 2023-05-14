@@ -1,17 +1,16 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
-namespace FlightBookingSystem.Models.Domain
+namespace FlightBookingSystem.Models.DTOs
 {
-	public class Flight
+	public class FlightDto
 	{
-		[Key]
 		public int FlightId { get; set; }
 
 		[Required(ErrorMessage = "Flight Name is Required")]
 		[StringLength(20, ErrorMessage = "Flight name cannot be longer than 20 character")]
 		[DisplayName("Flight Name")]
-		public string FlightName { get; set;}
+		public string FlightName { get; set; }
 
 		[Required(ErrorMessage = "Flight Number is Required")]
 		[StringLength(10, ErrorMessage = "Flight number cannot be longer than 10 character")]
@@ -29,9 +28,9 @@ namespace FlightBookingSystem.Models.Domain
 		public string ArrivalCity { get; set; }
 
 		[Required(ErrorMessage = "Departure time is Required")]
-		[DataType(DataType.DateTime, ErrorMessage ="Invalid departure time format")]
+		[DataType(DataType.DateTime, ErrorMessage = "Invalid departure time format")]
 		[DisplayName("Departure Time")]
-		public DateTime DepartureDateTime { get; set;}
+		public DateTime DepartureDateTime { get; set; }
 
 		[Required(ErrorMessage = "Arrival time is Required")]
 		[DataType(DataType.DateTime, ErrorMessage = "Invalid Arrival time format")]
@@ -54,15 +53,11 @@ namespace FlightBookingSystem.Models.Domain
 
 		[Required]
 		[DisplayName("Total Seats")]
-		
 		public int TotalSeats { get; set; }
 
 		[Required]
 		[DisplayName("Available Seats")]
 		public int AvailableSeats { get; set; }
 
-
-		public IEnumerable<FlightBooking> FlightBooking { get; set; }
-		}
 	}
-
+}

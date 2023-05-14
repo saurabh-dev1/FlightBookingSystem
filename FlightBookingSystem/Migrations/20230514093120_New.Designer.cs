@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlightBookingSystem.Migrations
 {
     [DbContext(typeof(FlightDbContext))]
-    [Migration("20230510232215_Initial")]
-    partial class Initial
+    [Migration("20230514093120_New")]
+    partial class New
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,12 +37,6 @@ namespace FlightBookingSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FlightBookingId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FlightId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -52,16 +46,7 @@ namespace FlightBookingSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PaymentId")
-                        .HasColumnType("int");
-
                     b.HasKey("AdminId");
-
-                    b.HasIndex("FlightBookingId");
-
-                    b.HasIndex("FlightId");
-
-                    b.HasIndex("PaymentId");
 
                     b.ToTable("Admins");
                 });
@@ -86,6 +71,9 @@ namespace FlightBookingSystem.Migrations
 
                     b.Property<DateTime>("ArrivalDateTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("AvailableSeats")
+                        .HasColumnType("int");
 
                     b.Property<double>("BasePrice")
                         .HasColumnType("float");
@@ -113,6 +101,10 @@ namespace FlightBookingSystem.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
+                    b.Property<int>("TotalSeats")
+                        .HasMaxLength(800)
+                        .HasColumnType("int");
+
                     b.HasKey("FlightId");
 
                     b.ToTable("Flights");
@@ -120,11 +112,8 @@ namespace FlightBookingSystem.Migrations
 
             modelBuilder.Entity("FlightBookingSystem.Models.Domain.FlightBooking", b =>
                 {
-                    b.Property<int>("FlightBookingId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("PaymentId")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FlightBookingId"));
 
                     b.Property<string>("ArrivalCity")
                         .IsRequired()
@@ -142,25 +131,23 @@ namespace FlightBookingSystem.Migrations
                     b.Property<DateTime>("DepartureDateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("FlightBookingId")
+                        .HasColumnType("int");
+
                     b.Property<int>("FlightId")
                         .HasColumnType("int");
 
                     b.Property<int>("NoOfPassenger")
                         .HasColumnType("int");
 
-                    b.Property<int>("PassengerId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SeatAvailableId")
-                        .HasColumnType("int");
-
-                    b.HasKey("FlightBookingId");
+                    b.HasKey("PaymentId");
 
                     b.HasIndex("FlightId");
 
-                    b.HasIndex("PassengerId");
-
-                    b.HasIndex("SeatAvailableId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("FlightBookings");
                 });
@@ -184,6 +171,9 @@ namespace FlightBookingSystem.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("FlightBookingId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Gender")
                         .IsRequired()
@@ -216,7 +206,7 @@ namespace FlightBookingSystem.Migrations
 
                     b.HasKey("PassengerId");
 
-                    b.HasIndex("SeatAllocationId");
+                    b.HasIndex("FlightBookingId");
 
                     b.HasIndex("UserId");
 
@@ -244,34 +234,29 @@ namespace FlightBookingSystem.Migrations
                     b.Property<bool>("PaymentStatus")
                         .HasColumnType("bit");
 
-                    b.Property<int>("SeatAllocationId")
-                        .HasColumnType("int");
-
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("PaymentId");
 
-                    b.HasIndex("FlightBookingId");
-
-                    b.HasIndex("SeatAllocationId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("FlightBookingSystem.Models.Domain.SeatAllocation", b =>
                 {
-                    b.Property<int>("SeatAllocationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SeatAllocationId"));
-
-                    b.Property<int>("FlightBookingId")
+                    b.Property<int>("PassengerId")
                         .HasColumnType("int");
 
                     b.Property<bool>("SeatAllocated")
                         .HasColumnType("bit");
+
+                    b.Property<int>("SeatAllocationId")
+                        .HasColumnType("int");
 
                     b.Property<string>("SeatClass")
                         .IsRequired()
@@ -281,36 +266,9 @@ namespace FlightBookingSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("SeatAllocationId");
-
-                    b.HasIndex("FlightBookingId");
+                    b.HasKey("PassengerId");
 
                     b.ToTable("SeatAllocations");
-                });
-
-            modelBuilder.Entity("FlightBookingSystem.Models.Domain.SeatAvailable", b =>
-                {
-                    b.Property<int>("SeatAvailableId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SeatAvailableId"));
-
-                    b.Property<int>("FlightId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SeatBooked")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalSeats")
-                        .HasMaxLength(800)
-                        .HasColumnType("int");
-
-                    b.HasKey("SeatAvailableId");
-
-                    b.HasIndex("FlightId");
-
-                    b.ToTable("SeatAvailables");
                 });
 
             modelBuilder.Entity("FlightBookingSystem.Models.Domain.User", b =>
@@ -320,6 +278,9 @@ namespace FlightBookingSystem.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+
+                    b.Property<int>("AdminId")
+                        .HasColumnType("int");
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
@@ -336,121 +297,124 @@ namespace FlightBookingSystem.Migrations
 
                     b.HasKey("UserId");
 
+                    b.HasIndex("AdminId");
+
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("FlightBookingSystem.Models.Domain.Admin", b =>
-                {
-                    b.HasOne("FlightBookingSystem.Models.Domain.FlightBooking", "FlightBooking")
-                        .WithMany()
-                        .HasForeignKey("FlightBookingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FlightBookingSystem.Models.Domain.Flight", "Flight")
-                        .WithMany()
-                        .HasForeignKey("FlightId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FlightBookingSystem.Models.Domain.Payment", "Payment")
-                        .WithMany()
-                        .HasForeignKey("PaymentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Flight");
-
-                    b.Navigation("FlightBooking");
-
-                    b.Navigation("Payment");
                 });
 
             modelBuilder.Entity("FlightBookingSystem.Models.Domain.FlightBooking", b =>
                 {
                     b.HasOne("FlightBookingSystem.Models.Domain.Flight", "Flight")
-                        .WithMany()
+                        .WithMany("FlightBooking")
                         .HasForeignKey("FlightId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FlightBookingSystem.Models.Domain.Passenger", "Passenger")
-                        .WithMany()
-                        .HasForeignKey("PassengerId")
+                    b.HasOne("FlightBookingSystem.Models.Domain.Payment", "Payment")
+                        .WithOne("FlightBooking")
+                        .HasForeignKey("FlightBookingSystem.Models.Domain.FlightBooking", "PaymentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FlightBookingSystem.Models.Domain.SeatAvailable", "SeatAvailable")
-                        .WithMany()
-                        .HasForeignKey("SeatAvailableId")
+                    b.HasOne("FlightBookingSystem.Models.Domain.User", "User")
+                        .WithMany("FlightBooking")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Flight");
 
-                    b.Navigation("Passenger");
+                    b.Navigation("Payment");
 
-                    b.Navigation("SeatAvailable");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FlightBookingSystem.Models.Domain.Passenger", b =>
                 {
-                    b.HasOne("FlightBookingSystem.Models.Domain.SeatAllocation", "SeatAllocation")
-                        .WithMany()
-                        .HasForeignKey("SeatAllocationId")
+                    b.HasOne("FlightBookingSystem.Models.Domain.FlightBooking", "FlightBooking")
+                        .WithMany("Passenger")
+                        .HasForeignKey("FlightBookingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FlightBookingSystem.Models.Domain.User", "User")
-                        .WithMany()
+                        .WithMany("Passenger")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("SeatAllocation");
+                    b.Navigation("FlightBooking");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("FlightBookingSystem.Models.Domain.Payment", b =>
                 {
-                    b.HasOne("FlightBookingSystem.Models.Domain.FlightBooking", "FlightBooking")
-                        .WithMany()
-                        .HasForeignKey("FlightBookingId")
+                    b.HasOne("FlightBookingSystem.Models.Domain.User", "User")
+                        .WithMany("Payment")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FlightBookingSystem.Models.Domain.SeatAllocation", "SeatAllocation")
-                        .WithMany()
-                        .HasForeignKey("SeatAllocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FlightBooking");
-
-                    b.Navigation("SeatAllocation");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FlightBookingSystem.Models.Domain.SeatAllocation", b =>
                 {
-                    b.HasOne("FlightBookingSystem.Models.Domain.FlightBooking", "FlightBooking")
-                        .WithMany()
-                        .HasForeignKey("FlightBookingId")
+                    b.HasOne("FlightBookingSystem.Models.Domain.Passenger", "Passenger")
+                        .WithOne("SeatAllocation")
+                        .HasForeignKey("FlightBookingSystem.Models.Domain.SeatAllocation", "PassengerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Passenger");
+                });
+
+            modelBuilder.Entity("FlightBookingSystem.Models.Domain.User", b =>
+                {
+                    b.HasOne("FlightBookingSystem.Models.Domain.Admin", "Admin")
+                        .WithMany("User")
+                        .HasForeignKey("AdminId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Admin");
+                });
+
+            modelBuilder.Entity("FlightBookingSystem.Models.Domain.Admin", b =>
+                {
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FlightBookingSystem.Models.Domain.Flight", b =>
+                {
                     b.Navigation("FlightBooking");
                 });
 
-            modelBuilder.Entity("FlightBookingSystem.Models.Domain.SeatAvailable", b =>
+            modelBuilder.Entity("FlightBookingSystem.Models.Domain.FlightBooking", b =>
                 {
-                    b.HasOne("FlightBookingSystem.Models.Domain.Flight", "Flight")
-                        .WithMany()
-                        .HasForeignKey("FlightId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Passenger");
+                });
 
-                    b.Navigation("Flight");
+            modelBuilder.Entity("FlightBookingSystem.Models.Domain.Passenger", b =>
+                {
+                    b.Navigation("SeatAllocation")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FlightBookingSystem.Models.Domain.Payment", b =>
+                {
+                    b.Navigation("FlightBooking")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FlightBookingSystem.Models.Domain.User", b =>
+                {
+                    b.Navigation("FlightBooking");
+
+                    b.Navigation("Passenger");
+
+                    b.Navigation("Payment");
                 });
 #pragma warning restore 612, 618
         }

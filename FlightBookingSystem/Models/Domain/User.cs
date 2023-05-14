@@ -25,5 +25,13 @@ namespace FlightBookingSystem.Models.Domain
 		public string Password { get; set; }
 
 
+
+		public int AdminId { get; set; }
+		//Navigation Property
+		public Admin Admin { get; set; }
+		public IEnumerable<FlightBooking> FlightBooking { get; set; }
+
+		public IEnumerable<Payment> Payment { get; set; }
+		public IEnumerable<Passenger> Passenger{ get; set; }
 	}
 }
