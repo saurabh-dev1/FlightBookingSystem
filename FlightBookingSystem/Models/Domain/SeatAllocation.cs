@@ -8,7 +8,6 @@ namespace FlightBookingSystem.Models.Domain
 		[Key]
 		public int SeatAllocationId { get; set; }
 
-	
 		[DisplayName("Seat Number")]
 		public string SeatNumber { get; set;}
 

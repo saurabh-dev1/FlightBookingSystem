@@ -210,7 +210,8 @@ namespace FlightBookingSystem.Controllers
 				TotalSeats = flight.TotalSeats,
 				AvailableSeats = flight.AvailableSeats
 			};
-			return CreatedAtAction(nameof(GetFlight), new { id = flight.FlightId },flightDto);
+			return Ok(flightDto);
+			
 		}
 
 

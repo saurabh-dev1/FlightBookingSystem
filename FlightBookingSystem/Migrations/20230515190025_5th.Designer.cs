@@ -4,6 +4,7 @@ using FlightBookingSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlightBookingSystem.Migrations
 {
     [DbContext(typeof(FlightDbContext))]
-    partial class FlightDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230515190025_5th")]
+    partial class _5th
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -164,6 +167,9 @@ namespace FlightBookingSystem.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<int>("FlightBookingId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -175,12 +181,15 @@ namespace FlightBookingSystem.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("PassengerId");
+
+                    b.HasIndex("FlightBookingId");
 
                     b.HasIndex("UserId");
 
@@ -294,11 +303,19 @@ namespace FlightBookingSystem.Migrations
 
             modelBuilder.Entity("FlightBookingSystem.Models.Domain.Passenger", b =>
                 {
+                    b.HasOne("FlightBookingSystem.Models.Domain.FlightBooking", "FlightBooking")
+                        .WithMany("Passenger")
+                        .HasForeignKey("FlightBookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("FlightBookingSystem.Models.Domain.User", "User")
                         .WithMany("Passenger")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("FlightBooking");
 
                     b.Navigation("User");
                 });
@@ -328,6 +345,11 @@ namespace FlightBookingSystem.Migrations
             modelBuilder.Entity("FlightBookingSystem.Models.Domain.Flight", b =>
                 {
                     b.Navigation("FlightBooking");
+                });
+
+            modelBuilder.Entity("FlightBookingSystem.Models.Domain.FlightBooking", b =>
+                {
+                    b.Navigation("Passenger");
                 });
 
             modelBuilder.Entity("FlightBookingSystem.Models.Domain.User", b =>

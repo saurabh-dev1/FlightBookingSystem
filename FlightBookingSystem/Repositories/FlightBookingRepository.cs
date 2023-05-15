@@ -37,5 +37,46 @@ namespace FlightBookingSystem.Repositories
 
 		}
 
+		//Update Booking Details
+		public async Task<FlightBooking?> UpdateAsync(int id, FlightBooking booking)
+		{
+			var existBooking = await dbContext.FlightBookings.FirstOrDefaultAsync(m =>m.FlightBookingId == id);
+			if (existBooking == null)
+			{
+				return null;
+			}
+
+			existBooking.DepartureDateTime = booking.DepartureDateTime;
+			existBooking.ArrivalDateTime = booking.ArrivalDateTime;
+			existBooking.DepartureCity = booking.DepartureCity;
+			existBooking.ArrivalCity = booking.DepartureCity;
+			existBooking.NoOfPassenger = booking.NoOfPassenger;
+			
+
+			await dbContext.SaveChangesAsync();
+			return existBooking;
+		}
+
+		//Delete Bookings
+		public async Task<FlightBooking?> DeleteAsync(int id)
+		{
+			var bookinExist = await dbContext.FlightBookings.FirstOrDefaultAsync(m => m.FlightBookingId==id);
+			if (bookinExist == null)
+			{
+				return null;
+			}
+			dbContext.FlightBookings.Remove(bookinExist);
+			await dbContext.SaveChangesAsync();
+			return bookinExist;
+		}
+
+
+		//Get By User Id
+		public async Task<List<FlightBooking>> GetByUserIdAsync(int id)
+		{
+			var booking = await dbContext.FlightBookings.Where(m=>m.UserId==id).ToListAsync();
+			return booking;
+		
+		}
 	}
 }

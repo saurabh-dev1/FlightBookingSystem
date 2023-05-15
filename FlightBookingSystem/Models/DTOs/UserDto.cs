@@ -1,18 +1,16 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
-namespace FlightBookingSystem.Models.Domain
+namespace FlightBookingSystem.Models.DTOs
 {
-	public class Admin
+	public class UserDto
 	{
-		[Key]
-		public int AdminId { get; set; }
+		public int UserId { get; set; }
 
 		[Required(ErrorMessage = "Name is Required")]
-		[StringLength(30, ErrorMessage = "Name cannot be longer than 30 character")]
+		[StringLength(40, ErrorMessage = "Name cannot be longer than 40 character")]
 		[DisplayName("Name")]
-		public string Name { get; set; }
+		public string UserName { get; set; }
 
 		[Required(ErrorMessage = "Email Id is Required")]
 		[DisplayName("Email Id")]
@@ -24,10 +22,5 @@ namespace FlightBookingSystem.Models.Domain
 		[DataType(DataType.Password)]
 		[MinLength(8, ErrorMessage = "Minimum 8 character Required")]
 		public string Password { get; set; }
-
-		
-
-		
-
 	}
 }

@@ -7,5 +7,9 @@ namespace FlightBookingSystem.Repositories.Interfaces
 		Task<List<FlightBooking>> GetAllAsync();
 		Task<FlightBooking?> GetByIdAsync(int id);
 		Task<FlightBooking> CreateAsync(FlightBooking booking); 
+		Task<FlightBooking?> UpdateAsync(int id, FlightBooking booking);
+		Task<FlightBooking?> DeleteAsync(int id);
+
+		Task<List<FlightBooking>> GetByUserIdAsync(int id);
 	}
 }

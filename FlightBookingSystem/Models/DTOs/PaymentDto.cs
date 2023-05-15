@@ -1,11 +1,10 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
-namespace FlightBookingSystem.Models.Domain
+namespace FlightBookingSystem.Models.DTOs
 {
-	public class Payment
+	public class PaymentDto
 	{
-		[Key]
 		public int PaymentId { get; set; }
 
 		[Required]
@@ -25,14 +24,7 @@ namespace FlightBookingSystem.Models.Domain
 		public bool PaymentStatus { get; set; }
 
 
-		//Foreign Key	
-		public int FlightBookingId { get; set; }
-
 	
-
-		// Navigation Property
-		public FlightBooking FlightBooking { get; set; }
-		
-		
+		public int FlightBookingId { get; set; }
 	}
 }

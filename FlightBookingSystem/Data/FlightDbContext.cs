@@ -21,12 +21,12 @@ namespace FlightBookingSystem.Data
 
 
 
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		/*protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
 
 			//Seed Data for FlightBookings
-			/*var flightBookings = new List<FlightBooking>()
+			*//*var flightBookings = new List<FlightBooking>()
 			{
 				new FlightBooking()
 				{
@@ -196,7 +196,7 @@ namespace FlightBookingSystem.Data
 			modelBuilder.Entity<SeatAllocation>().HasData(seatAllocation);
 			modelBuilder.Entity<SeatAvailable>().HasData(seatAvailable);
 			modelBuilder.Entity<User>().HasData(user);
-			modelBuilder.Entity<Flight>().HasData(flight);*/
+			modelBuilder.Entity<Flight>().HasData(flight);*//*
 
 
 
@@ -206,7 +206,7 @@ namespace FlightBookingSystem.Data
 			
 		}
 
-
+*/
 
 
 		

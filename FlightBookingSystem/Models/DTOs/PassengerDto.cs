@@ -1,17 +1,16 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
-namespace FlightBookingSystem.Models.Domain
+namespace FlightBookingSystem.Models.DTOs
 {
-	public class Passenger
+	public class PassengerDto
 	{
 		[Key]
 		public int PassengerId { get; set; }
 
-		[Required(ErrorMessage ="First Name is Required")]
+		[Required(ErrorMessage = "First Name is Required")]
 		[DisplayName("First Name")]
-		[StringLength(20,ErrorMessage = "Maximum 20 character allow")]
+		[StringLength(20, ErrorMessage = "Maximum 20 character allow")]
 		public string FirstName { get; set; }
 
 		[Required(ErrorMessage = "Last Name is Required")]
@@ -21,14 +20,12 @@ namespace FlightBookingSystem.Models.Domain
 
 		[Required(ErrorMessage = "Age is Required")]
 		[DisplayName("Age")]
-		
 		public int Age { get; set; }
 
 		[Required(ErrorMessage = "Gender is Required")]
 		[DisplayName("Gender")]
 		public string Gender { get; set; }
 
-		
 		[Required(ErrorMessage = "Mobile Number is Required")]
 		[DisplayName("Mob. No.")]
 		
@@ -39,11 +36,5 @@ namespace FlightBookingSystem.Models.Domain
 		public int UserId { get; set; }
 		
 
-		
-
-		// Navigation Property
-		public User User { get; set; }
-		
-		
 	}
 }

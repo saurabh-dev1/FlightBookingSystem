@@ -21,6 +21,9 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("FlightConnection
 builder.Services.AddScoped<IFlight, FlightRepository>();
 builder.Services.AddScoped<IAdmin, AdminRepository>();
 builder.Services.AddScoped<IFlightBooking, FlightBookingRepository>();
+builder.Services.AddScoped<IUser, UserRepository>();
+builder.Services.AddScoped<IPassenger, PassengerRepository>();
+builder.Services.AddScoped<ISeatAllocation, SeatAllocationRepository>();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
