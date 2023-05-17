@@ -61,7 +61,7 @@ namespace FlightBookingSystem.Models.Domain
 		[DisplayName("Available Seats")]
 		public int AvailableSeats { get; set; }
 
-
+		//Navigation Properties
 		public IEnumerable<FlightBooking> FlightBooking { get; set; }
 		}
 	}

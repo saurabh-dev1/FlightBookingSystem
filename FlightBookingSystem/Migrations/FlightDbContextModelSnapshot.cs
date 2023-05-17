@@ -164,6 +164,9 @@ namespace FlightBookingSystem.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<int>("FlightBookingId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -181,6 +184,8 @@ namespace FlightBookingSystem.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("PassengerId");
+
+                    b.HasIndex("FlightBookingId");
 
                     b.HasIndex("UserId");
 
@@ -294,11 +299,19 @@ namespace FlightBookingSystem.Migrations
 
             modelBuilder.Entity("FlightBookingSystem.Models.Domain.Passenger", b =>
                 {
+                    b.HasOne("FlightBookingSystem.Models.Domain.FlightBooking", "FlightBooking")
+                        .WithMany("Passenger")
+                        .HasForeignKey("FlightBookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("FlightBookingSystem.Models.Domain.User", "User")
                         .WithMany("Passenger")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("FlightBooking");
 
                     b.Navigation("User");
                 });
@@ -328,6 +341,11 @@ namespace FlightBookingSystem.Migrations
             modelBuilder.Entity("FlightBookingSystem.Models.Domain.Flight", b =>
                 {
                     b.Navigation("FlightBooking");
+                });
+
+            modelBuilder.Entity("FlightBookingSystem.Models.Domain.FlightBooking", b =>
+                {
+                    b.Navigation("Passenger");
                 });
 
             modelBuilder.Entity("FlightBookingSystem.Models.Domain.User", b =>

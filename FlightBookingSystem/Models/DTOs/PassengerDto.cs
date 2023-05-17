@@ -34,7 +34,7 @@ namespace FlightBookingSystem.Models.DTOs
 
 		//Foreign Key
 		public int UserId { get; set; }
-		
+		public int FlightBookingId { get; set; }
 
 	}
 }

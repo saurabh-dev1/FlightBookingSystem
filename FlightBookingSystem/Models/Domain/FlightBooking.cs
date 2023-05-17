@@ -36,9 +36,9 @@ namespace FlightBookingSystem.Models.Domain
 
 
 		//Foreign Key
-		[ForeignKey("User")]
+		
 		public int UserId { get; set; }
-		[ForeignKey("Flight")]
+		
 		public int FlightId { get; set; }
 		
 
@@ -46,7 +46,7 @@ namespace FlightBookingSystem.Models.Domain
 		// Navigation Property
 		public User User { get; set; }
 		public Flight Flight { get; set; }
-		
 
+		public IEnumerable<Passenger> Passenger { get; }
 	}
 }

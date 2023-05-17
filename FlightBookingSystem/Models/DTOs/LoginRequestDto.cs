@@ -3,10 +3,8 @@ using System.ComponentModel;
 
 namespace FlightBookingSystem.Models.DTOs
 {
-	public class UserDto
+	public class LoginRequestDto
 	{
-		public int UserId { get; set; }
-
 		[Required(ErrorMessage = "Name is Required")]
 		[StringLength(40, ErrorMessage = "Name cannot be longer than 40 character")]
 		[DisplayName("Name")]
@@ -23,8 +21,5 @@ namespace FlightBookingSystem.Models.DTOs
 		[MinLength(8, ErrorMessage = "Minimum 8 character Required")]
 		public string Password { get; set; }
 
-
-		
-		
 	}
 }

@@ -37,12 +37,13 @@ namespace FlightBookingSystem.Models.Domain
 
 		//Foreign Key
 		public int UserId { get; set; }
+		public int FlightBookingId { get; set; }
 		
-
 		
 
 		// Navigation Property
 		public User User { get; set; }
+		public FlightBooking FlightBooking { get; set; }
 		
 		
 	}

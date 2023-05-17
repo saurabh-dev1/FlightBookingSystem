@@ -5,6 +5,7 @@ using FlightBookingSystem.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace FlightBookingSystem.Controllers
 {
 	[Route("api/[controller]")]
@@ -38,8 +39,9 @@ namespace FlightBookingSystem.Controllers
 					ArrivalDateTime = flightBooking.ArrivalDateTime,
 					NoOfPassenger = flightBooking.NoOfPassenger,
 					FlightId = flightBooking.FlightId,
-					UserId = flightBooking.UserId
-				});
+					UserId = flightBooking.UserId,
+				}); 
+				
 			}
 
 			return Ok(bookingDto);
@@ -85,7 +87,7 @@ namespace FlightBookingSystem.Controllers
 				DepartureDateTime = flightBookingDto.DepartureDateTime,
 				ArrivalDateTime = flightBookingDto.ArrivalDateTime,
 				NoOfPassenger = flightBookingDto.NoOfPassenger,
-				FlightId= flightBookingDto.FlightId,
+				FlightId = flightBookingDto.FlightId,
 				UserId = flightBookingDto.UserId
 			};
 
@@ -141,8 +143,8 @@ namespace FlightBookingSystem.Controllers
 				booking.DepartureDateTime = flightBookingDto.DepartureDateTime;
 				booking.ArrivalDateTime = flightBookingDto.ArrivalDateTime;
 				booking.NoOfPassenger = flightBookingDto.NoOfPassenger;
-				booking.FlightId = flightBookingDto.FlightId;
-				booking.UserId = flightBookingDto.UserId;
+			booking.FlightId = flightBookingDto.FlightId;
+			booking.UserId = flightBookingDto.UserId;
 
 			//Map DomainModel to Dto
 			flightBookingDto = new FlightBookingDto

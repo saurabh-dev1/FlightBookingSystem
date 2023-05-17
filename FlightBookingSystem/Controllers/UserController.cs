@@ -88,7 +88,60 @@ namespace FlightBookingSystem.Controllers
 			return Ok(userDto);
 		}
 
+		// Update User
+		[HttpPut]
+		[Route("{id}")]
+		public async Task<IActionResult> UpdateUser([FromRoute] int id, [FromBody] UserDto userDto)
+		{
+			var user = new User
+			{
+				UserId = userDto.UserId,
+				UserName = userDto.UserName,
+				EmailAddress = userDto.EmailAddress,
+				Password = userDto.Password
+			};
 
+			user = await userRepository.UpdateAsync(id, user);
+			if(user == null)
+			{
+				return NotFound();
+			}
+			user.UserId = userDto.UserId;
+			user.UserName = userDto.UserName;
+			user.EmailAddress = userDto.EmailAddress;
+			user.Password = userDto.Password;
+
+			userDto = new UserDto
+			{
+				UserId = user.UserId,
+				UserName = user.UserName,
+				EmailAddress = user.EmailAddress,
+				Password = user.Password
+			};
+
+			return Ok(userDto);
+		}
+
+		[HttpDelete]
+		[Route("{id}")]
+		public async Task<IActionResult> DeleteUserAsync([FromRoute] int id)
+		{
+			var user = await userRepository.DeleteAsync(id);
+			if (user == null)
+			{
+				return NotFound();
+			}
+
+			var userDto = new UserDto
+			{
+				UserId = user.UserId,
+				UserName = user.UserName,
+				EmailAddress = user.EmailAddress,
+				Password = user.Password
+			};
+
+			return Ok(userDto);
+		}
 		
     }
 }

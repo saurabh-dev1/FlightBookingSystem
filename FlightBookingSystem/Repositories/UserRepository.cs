@@ -22,6 +22,7 @@ namespace FlightBookingSystem.Repositories
 			return user;
 		}
 
+		
 		//Get All Users
 		public async Task<List<User>> GetAllAsync()
 		{
@@ -33,5 +34,36 @@ namespace FlightBookingSystem.Repositories
 		{
 			return await flightDbContext.Users.FirstOrDefaultAsync(m =>m.UserId == id);
 		}
+
+		//Update User 
+		public async Task<User?> UpdateAsync(int id, User user)
+		{
+			var existUser = await flightDbContext.Users.FirstOrDefaultAsync(u => u.UserId == id);
+			if (existUser == null)
+			{
+				return null;
+			}
+			existUser.UserName = user.UserName;
+			existUser.Password = user.Password;
+			existUser.EmailAddress = user.EmailAddress;
+
+			await flightDbContext.SaveChangesAsync();
+			return existUser;
+		}
+
+		//Delete User
+		public async Task<User?> DeleteAsync(int id)
+		{
+			var existUser = await flightDbContext.Users.FirstOrDefaultAsync(u => u.UserId == id);
+			if (existUser == null)
+			{
+				return null;
+			}
+
+			flightDbContext.Users.Remove(existUser);
+			await flightDbContext.SaveChangesAsync();
+			return existUser;
+		}
+
 	}
 }

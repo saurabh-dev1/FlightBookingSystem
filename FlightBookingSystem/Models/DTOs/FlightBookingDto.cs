@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using FlightBookingSystem.Models.Domain;
+using Microsoft.AspNetCore.SignalR;
 
 namespace FlightBookingSystem.Models.DTOs
 {
@@ -34,7 +36,9 @@ namespace FlightBookingSystem.Models.DTOs
 		public int NoOfPassenger { get; set; }
 
 		public int FlightId { get; set; }
+		
 		public int UserId { get; set; }
-
+		/*public FlightDto Flight { get; set; }*/
+		public UserDto User { get; set; }
 	}
 }

@@ -37,7 +37,8 @@ namespace FlightBookingSystem.Controllers
 					Age = passenger.Age,
 					Gender = passenger.Gender,
 					PhoneNumber = passenger.PhoneNumber,
-					UserId = passenger.UserId
+					UserId = passenger.UserId,
+					FlightBookingId = passenger.FlightBookingId
 				});
 			}
 
@@ -57,7 +58,8 @@ namespace FlightBookingSystem.Controllers
 				Age = passengerDto.Age,
 				Gender = passengerDto.Gender,
 				PhoneNumber = passengerDto.PhoneNumber,
-				UserId = passengerDto.UserId
+				UserId = passengerDto.UserId,
+				FlightBookingId = passengerDto.FlightBookingId
 			};
 
 			await passengerRepository.CreateAsync(passenger);
@@ -70,7 +72,8 @@ namespace FlightBookingSystem.Controllers
 				Age = passenger.Age,
 				Gender = passenger.Gender,
 				PhoneNumber = passenger.PhoneNumber,
-				UserId = passenger.UserId
+				UserId = passenger.UserId,
+				FlightBookingId = passenger.FlightBookingId
 			};
 			return Ok(passengerDto);
 		}
@@ -94,7 +97,8 @@ namespace FlightBookingSystem.Controllers
 				Age = passenger.Age,
 				Gender = passenger.Gender,
 				PhoneNumber = passenger.PhoneNumber,
-				UserId = passenger.UserId
+				UserId = passenger.UserId,
+				FlightBookingId = passenger.FlightBookingId
 			};
 
 			return Ok(passengerDto);
@@ -118,7 +122,8 @@ namespace FlightBookingSystem.Controllers
 					Age = passenger.Age,
 					Gender = passenger.Gender,
 					PhoneNumber = passenger.PhoneNumber,
-					UserId = passenger.UserId
+					UserId = passenger.UserId,
+					FlightBookingId = passenger.FlightBookingId
 				});
 			}
 
@@ -147,7 +152,8 @@ namespace FlightBookingSystem.Controllers
 				Age = passengerDto.Age,
 				Gender = passengerDto.Gender,
 				PhoneNumber = passengerDto.PhoneNumber,
-				UserId = passengerDto.UserId
+				UserId = passengerDto.UserId,
+				FlightBookingId = passengerDto.FlightBookingId
 			};
 
 			//Check if booking exist
@@ -164,6 +170,7 @@ namespace FlightBookingSystem.Controllers
 				passenger.Gender = passengerDto.Gender;
 				passenger.PhoneNumber = passengerDto.PhoneNumber;
 				passenger.UserId = passengerDto.UserId;
+				passenger.FlightBookingId = passengerDto.FlightBookingId;
 
 			//Map Domain model to Dto
 			passengerDto = new PassengerDto
@@ -174,7 +181,8 @@ namespace FlightBookingSystem.Controllers
 				Age = passenger.Age,
 				Gender = passenger.Gender,
 				PhoneNumber = passenger.PhoneNumber,
-				UserId = passenger.UserId
+				UserId = passenger.UserId,
+				FlightBookingId = passenger.FlightBookingId
 			};
 			return Ok(passengerDto);
 		}
@@ -198,7 +206,8 @@ namespace FlightBookingSystem.Controllers
 				Age = passenger.Age,
 				Gender = passenger.Gender,
 				PhoneNumber = passenger.PhoneNumber,
-				UserId = passenger.UserId
+				UserId = passenger.UserId,
+				FlightBookingId = passenger.FlightBookingId
 			};
 
 			return Ok(passengerDto);

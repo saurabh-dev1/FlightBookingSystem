@@ -12,7 +12,7 @@ namespace FlightBookingSystem.Controllers
 {
     [Route("api/[controller]")]
 	[ApiController]
-	//[Authorize]
+	
 	public class FlightController : ControllerBase
 	{
 		
@@ -25,6 +25,7 @@ namespace FlightBookingSystem.Controllers
 
 		// Get All Flights
 		[HttpGet]
+		[Authorize(Roles = "User")]
 		public async Task<IActionResult> GetAllFlight()
 		{
 			var flights = await flightRepository.GetAllAsync();

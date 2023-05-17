@@ -1,12 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace FlightBookingSystem.Models.DTOs
 {
-	public class UserDto
+	public class UserRoleDto
 	{
-		public int UserId { get; set; }
-
 		[Required(ErrorMessage = "Name is Required")]
 		[StringLength(40, ErrorMessage = "Name cannot be longer than 40 character")]
 		[DisplayName("Name")]
@@ -24,7 +22,7 @@ namespace FlightBookingSystem.Models.DTOs
 		public string Password { get; set; }
 
 
-		
-		
+		public string[] Roles { get; set; }
+
 	}
 }
