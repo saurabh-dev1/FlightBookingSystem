@@ -28,7 +28,7 @@ namespace FlightBookingSystem.Controllers
 
 		//Get All Admins
         [HttpGet]
-		[Authorize(Roles = "Admin")]
+		/*[Authorize(Roles = "Admin")]*/
 		public async Task<IActionResult> GetAll()
 		{
 			var admins =  await AdminRepository.GetAllAsync();
@@ -51,7 +51,7 @@ namespace FlightBookingSystem.Controllers
 		// Get Single Admin by id
 		[HttpGet]
 		[Route("{id}")]
-		[Authorize(Roles = "Admin")]
+		/*[Authorize(Roles = "Admin")]*/
 		public async Task<IActionResult> GetById([FromRoute] int id)
 		{
 			var admin = await AdminRepository.GetByIdAsync(id);
@@ -73,7 +73,7 @@ namespace FlightBookingSystem.Controllers
 
 		// Create Admin
 		[HttpPost]
-		[Authorize(Roles = "Admin")]
+		/*[Authorize(Roles = "Admin")]*/
 		public async Task<IActionResult> Create([FromBody] AdminDto adminDto)
 		{
 			var admin = new Admin

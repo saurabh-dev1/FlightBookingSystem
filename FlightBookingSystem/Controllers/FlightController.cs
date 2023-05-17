@@ -25,7 +25,7 @@ namespace FlightBookingSystem.Controllers
 
 		// Get All Flights
 		[HttpGet]
-		[Authorize(Roles = "User")]
+		/*[Authorize(Roles = "User, Admin")]*/
 		public async Task<IActionResult> GetAllFlight()
 		{
 			var flights = await flightRepository.GetAllAsync();
