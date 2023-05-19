@@ -63,9 +63,23 @@ namespace FlightBookingSystem.Controllers
 		//Get By Booking id
 		[HttpGet]
 		[Route("GetByBookingId/{id}")]
-		public Task<IActionResult> GetByBookingId([FromRoute] int id)
+		public async Task<IActionResult> GetByBookingId([FromRoute] int id)
 		{
+			var payments = await paymentReposiotry.GetByBookinIdAsync(id);
+			var paymentDto = new List<PaymentDto>();
+			foreach(var payment in payments)
+			{
+				paymentDto.Add(new PaymentDto
+				{
+					PaymentId = payment.PaymentId,
+					PayemntTime = payment.PayemntTime,
+					PaymentMethod = payment.PaymentMethod,
+					TotalPrice = payment.TotalPrice,
+					PaymentStatus = payment.PaymentStatus
+				});
+			}
 
+			return Ok(paymentDto);
 		}
 
 

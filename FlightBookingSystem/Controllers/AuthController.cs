@@ -20,7 +20,7 @@ namespace FlightBookingSystem.Controllers
 			TokenRepository = tokenRepository;
 		}
 
-
+		// For register
         [HttpPost]
 		[Route("Register")]
 		public async Task<IActionResult> Register([FromBody] UserRoleDto userDto)
@@ -51,6 +51,7 @@ namespace FlightBookingSystem.Controllers
 		}
 
 
+		// for login
 		[HttpPost]
 		[Route("Login")]
 		public async Task<IActionResult> Login([FromBody] LoginRequestDto loginDto)
