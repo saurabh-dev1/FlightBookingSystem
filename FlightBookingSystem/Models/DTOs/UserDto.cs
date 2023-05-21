@@ -5,6 +5,7 @@ namespace FlightBookingSystem.Models.DTOs
 {
 	public class UserDto
 	{
+		[Key]
 		public int UserId { get; set; }
 
 		[Required(ErrorMessage = "Name is Required")]
@@ -23,8 +24,11 @@ namespace FlightBookingSystem.Models.DTOs
 		[MinLength(8, ErrorMessage = "Minimum 8 character Required")]
 		public string Password { get; set; }
 
+		[Required(ErrorMessage = "PhoneNo is Required")]
+		public string PhoneNo { get; set; }
 
-		
-		
+
+
+
 	}
 }

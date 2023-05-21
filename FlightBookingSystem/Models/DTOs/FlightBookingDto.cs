@@ -39,6 +39,6 @@ namespace FlightBookingSystem.Models.DTOs
 		
 		public int UserId { get; set; }
 		/*public FlightDto Flight { get; set; }*/
-		public UserDto User { get; set; }
+		/*public UserDto User { get; set; }*/
 	}
 }

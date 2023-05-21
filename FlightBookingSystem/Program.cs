@@ -50,6 +50,18 @@ builder.Services.AddSwaggerGen(options =>
 
 });
 
+
+// Add Cors for call
+builder.Services.AddCors(option =>
+{
+	option.AddPolicy("MyPolicy", builder =>
+	{
+		builder.AllowAnyOrigin()
+		.AllowAnyHeader()
+		.AllowAnyHeader();
+	});
+});
+
 //Injected Db context
 builder.Services.AddDbContext<FlightDbContext>(options => 
 options.UseSqlServer(builder.Configuration.GetConnectionString("FlightConnectionString")));
@@ -88,7 +100,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
 	{
 		ValidateIssuer = true,
-		ValidateAudience = true,
+		ValidateAudience = false,
 		ValidateLifetime = true,
 		ValidateIssuerSigningKey = true,
 		ValidIssuer = builder.Configuration["Jwt:Issuer"],
@@ -107,7 +119,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
+app.UseCors("MyPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 

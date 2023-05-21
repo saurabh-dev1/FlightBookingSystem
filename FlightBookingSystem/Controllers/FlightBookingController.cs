@@ -2,6 +2,7 @@
 using FlightBookingSystem.Models.DTOs;
 using FlightBookingSystem.Repositories;
 using FlightBookingSystem.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,7 @@ namespace FlightBookingSystem.Controllers
 
 		// Get All Bookings
 		[HttpGet]
+		[Authorize(Roles = "User")]
 		public async Task<IActionResult> GetAll()
 		{
 			var booking = await flightBookingRepository.GetAllAsync();
@@ -51,6 +53,7 @@ namespace FlightBookingSystem.Controllers
 		// Get Booking By id
 		[HttpGet]
 		[Route("{id}")]
+		
 		public async Task<IActionResult> GetById([FromRoute] int id)
 		{
 			var booking = await flightBookingRepository.GetByIdAsync(id);
@@ -76,6 +79,7 @@ namespace FlightBookingSystem.Controllers
 
 		//Create Bookings
 		[HttpPost]
+		[Authorize(Roles = "User")]
 		public async Task<IActionResult> CreateBooking([FromBody] FlightBookingDto flightBookingDto)
 		{
 			// Map DTO to Domain model
@@ -88,7 +92,7 @@ namespace FlightBookingSystem.Controllers
 				ArrivalDateTime = flightBookingDto.ArrivalDateTime,
 				NoOfPassenger = flightBookingDto.NoOfPassenger,
 				FlightId = flightBookingDto.FlightId,
-				UserId = flightBookingDto.UserId
+				
 			};
 
 			await flightBookingRepository.CreateAsync(booking);

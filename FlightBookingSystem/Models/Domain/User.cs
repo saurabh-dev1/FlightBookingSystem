@@ -24,9 +24,14 @@ namespace FlightBookingSystem.Models.Domain
 		[MinLength(8, ErrorMessage = "Minimum 8 character Required")]
 		public string Password { get; set; }
 
-	
+		[Required(ErrorMessage = "PhoneNo is Required")]
+		public string PhoneNo { get; set; }
+
+		public string Roles { get; set; } = "User";
+
+
 		//Navigation Property
-		
+
 		public IEnumerable<FlightBooking> FlightBookings { get; set; }
 		public IEnumerable<Passenger> Passenger{ get; set; }
 	}

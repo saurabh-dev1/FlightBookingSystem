@@ -23,31 +23,36 @@ namespace FlightBookingSystem.Controllers
 		// For register
         [HttpPost]
 		[Route("Register")]
-		public async Task<IActionResult> Register([FromBody] UserRoleDto userDto)
+		public async Task<IActionResult> Register([FromBody] CreateUserDto userDto)
 		{
 			var identityUser = new IdentityUser
 			{
 				UserName = userDto.UserName,
-				Email = userDto.EmailAddress
+				Email = userDto.EmailAddress,
+				PasswordHash = userDto.Password,
+				PhoneNumber = userDto.PhoneNo,
+				
 			};
+			
 
+				var identityResult = await userManager.CreateAsync(identityUser, userDto.Password);
 
-			var identityResult = await userManager.CreateAsync(identityUser, userDto.Password);
-
-			if(identityResult.Succeeded)
-			{
-				// Add roles to the user
-				if (userDto.Roles.Any() && userDto.Roles != null)
+				if (identityResult.Succeeded)
 				{
-					identityResult = await userManager.AddToRolesAsync(identityUser, userDto.Roles);
-
-					if(identityResult.Succeeded)
+					// Add roles to the user
+					if (userDto.Roles.Any() && userDto.Roles != null)
 					{
-						return Ok("User is Registered! Please login.");
+						identityResult = await userManager.AddToRolesAsync(identityUser, userDto.Roles);
+
+						if (identityResult.Succeeded)
+						{
+							return Ok("User is Registered! Please login.");
+						}
 					}
 				}
-			}
-			return BadRequest("Something Went Wrong");
+			
+			
+			return BadRequest();
 		}
 
 
@@ -56,7 +61,7 @@ namespace FlightBookingSystem.Controllers
 		[Route("Login")]
 		public async Task<IActionResult> Login([FromBody] LoginRequestDto loginDto)
 		{
-			var user= await userManager.FindByEmailAsync(loginDto.EmailAddress);
+			var user= await userManager.FindByNameAsync(loginDto.UserName);
 
 			if(user != null)
 			{

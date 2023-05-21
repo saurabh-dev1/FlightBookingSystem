@@ -32,7 +32,8 @@ namespace FlightBookingSystem.Controllers
 					UserId = user.UserId,
 					UserName = user.UserName,
 					EmailAddress = user.EmailAddress,
-					Password=user.Password
+					Password=user.Password,
+					PhoneNo = user.PhoneNo
 				});
 			}
 
@@ -55,7 +56,8 @@ namespace FlightBookingSystem.Controllers
 				UserId = user.UserId,
 				UserName = user.UserName,
 				EmailAddress = user.EmailAddress,
-				Password = user.Password
+				Password = user.Password,
+				PhoneNo = user.PhoneNo
 			};
 
 			return Ok(userDto);
@@ -63,26 +65,28 @@ namespace FlightBookingSystem.Controllers
 
 		//Create User
 		[HttpPost]
-		public async Task<IActionResult> CreateAsync([FromBody]  UserDto userDto)
+		public async Task<IActionResult> CreateAsync([FromBody]  CreateUserDto userDto)
 		{
 			//map Dto to Domain model
 			var user = new User
 			{
-				UserId = userDto.UserId,
+				
 				UserName = userDto.UserName,
 				EmailAddress = userDto.EmailAddress,
-				Password = userDto.Password
+				Password = userDto.Password,
+				PhoneNo = userDto.PhoneNo
 			};
 
 			await userRepository.CreateAsync(user);
 
 			//Map Domain modle to Dto
-			userDto = new UserDto
+			userDto = new CreateUserDto
 			{
-				UserId = user.UserId,
+				
 				UserName = user.UserName,
 				EmailAddress = user.EmailAddress,
-				Password = user.Password
+				Password = user.Password,
+				PhoneNo = user.PhoneNo
 			};
 
 			return Ok(userDto);
@@ -98,7 +102,8 @@ namespace FlightBookingSystem.Controllers
 				UserId = userDto.UserId,
 				UserName = userDto.UserName,
 				EmailAddress = userDto.EmailAddress,
-				Password = userDto.Password
+				Password = userDto.Password,
+				PhoneNo = userDto.PhoneNo
 			};
 
 			user = await userRepository.UpdateAsync(id, user);
@@ -110,6 +115,7 @@ namespace FlightBookingSystem.Controllers
 			user.UserName = userDto.UserName;
 			user.EmailAddress = userDto.EmailAddress;
 			user.Password = userDto.Password;
+			user.PhoneNo = user.PhoneNo;
 
 			userDto = new UserDto
 			{
@@ -137,7 +143,8 @@ namespace FlightBookingSystem.Controllers
 				UserId = user.UserId,
 				UserName = user.UserName,
 				EmailAddress = user.EmailAddress,
-				Password = user.Password
+				Password = user.Password,
+				PhoneNo = user.PhoneNo
 			};
 
 			return Ok(userDto);

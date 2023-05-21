@@ -10,10 +10,6 @@ namespace FlightBookingSystem.Models.DTOs
 		[DisplayName("Name")]
 		public string UserName { get; set; }
 
-		[Required(ErrorMessage = "Email Id is Required")]
-		[DisplayName("Email Id")]
-		[DataType(DataType.EmailAddress)]
-		public string EmailAddress { get; set; }
 
 		[Required(ErrorMessage = "Password is Required")]
 		[DisplayName("Password")]
