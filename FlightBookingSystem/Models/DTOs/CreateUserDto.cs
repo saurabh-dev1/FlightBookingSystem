@@ -21,9 +21,10 @@ namespace FlightBookingSystem.Models.DTOs
 		[MinLength(8, ErrorMessage = "Minimum 8 character Required")]
 		public string Password { get; set; }
 
-		[Required(ErrorMessage = "PhoneNo is Required")]
-		[DataType(DataType.PhoneNumber)]
+		
 		public string PhoneNo { get; set; }
-		public string[] Roles { get; set; }
+
+
+		
 	}
 }

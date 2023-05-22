@@ -17,5 +17,8 @@ namespace FlightBookingSystem.Models.DTOs
 		[MinLength(8, ErrorMessage = "Minimum 8 character Required")]
 		public string Password { get; set; }
 
+		public string? Roles { get; set; } 
+		public string? Token { get; set; }
+
 	}
 }

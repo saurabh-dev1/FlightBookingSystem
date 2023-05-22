@@ -91,7 +91,7 @@ namespace FlightBookingSystem.Controllers
 				DepartureDateTime = flightBookingDto.DepartureDateTime,
 				ArrivalDateTime = flightBookingDto.ArrivalDateTime,
 				NoOfPassenger = flightBookingDto.NoOfPassenger,
-				FlightId = flightBookingDto.FlightId,
+				FlightId = flightBookingDto.FlightId
 				
 			};
 

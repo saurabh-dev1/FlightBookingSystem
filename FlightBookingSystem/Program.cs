@@ -76,14 +76,14 @@ builder.Services.AddScoped<IFlightBooking, FlightBookingRepository>();
 builder.Services.AddScoped<IUser, UserRepository>();
 builder.Services.AddScoped<IPassenger, PassengerRepository>();
 builder.Services.AddScoped<ISeatAllocation, SeatAllocationRepository>();
-builder.Services.AddScoped<IToken, TokenRepository>();
+
 
 //For Identity roles in Authentication
-builder.Services.AddIdentityCore<IdentityUser>()
+/*builder.Services.AddIdentityCore<IdentityUser>()
 	.AddRoles<IdentityRole>()
 	.AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("FlightBookingSystem")
 	.AddEntityFrameworkStores<FlightAuthDbContext>()
-	.AddDefaultTokenProviders();
+	.AddDefaultTokenProviders();*/
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -99,13 +99,13 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
 	{
-		ValidateIssuer = true,
+		ValidateIssuer = false,
 		ValidateAudience = false,
 		ValidateLifetime = true,
 		ValidateIssuerSigningKey = true,
 		ValidIssuer = builder.Configuration["Jwt:Issuer"],
 		ValidAudience = builder.Configuration["Jwt.Audience"],
-		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("kjdsfhvkjsdfhkjshfdkjvhjkdkjfklrt"))
 	});
 
 var app = builder.Build();

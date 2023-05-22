@@ -27,7 +27,7 @@ namespace FlightBookingSystem.Models.Domain
 		[Required(ErrorMessage = "PhoneNo is Required")]
 		public string PhoneNo { get; set; }
 
-		public string Roles { get; set; } = "User";
+		public string? Roles { get; set; } = "User";
 
 
 		//Navigation Property
