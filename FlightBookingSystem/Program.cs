@@ -78,12 +78,7 @@ builder.Services.AddScoped<IPassenger, PassengerRepository>();
 builder.Services.AddScoped<ISeatAllocation, SeatAllocationRepository>();
 
 
-//For Identity roles in Authentication
-/*builder.Services.AddIdentityCore<IdentityUser>()
-	.AddRoles<IdentityRole>()
-	.AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("FlightBookingSystem")
-	.AddEntityFrameworkStores<FlightAuthDbContext>()
-	.AddDefaultTokenProviders();*/
+
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
