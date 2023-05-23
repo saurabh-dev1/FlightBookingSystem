@@ -88,14 +88,24 @@ namespace FlightBookingSystem.Controllers
 
 
 		// Create Token 
-		private string CreateJwt(LoginRequestDto loginDto)
+		private string CreateJwt(User user)
 		{
+			
+			string check = "";
+			if (user.Roles == "Admin")
+			{
+				check = "Admin";
+			}
+			else if (user.Roles == "User")
+			{
+				check = "User";
+			}
 			var jwtTokenHandler = new JwtSecurityTokenHandler();
 			var key = Encoding.ASCII.GetBytes("kjdsfhvkjsdfhkjshfdkjvhjkdkjfklrt");
 			var identity = new ClaimsIdentity(new Claim[]
 			{
-				new Claim(ClaimTypes.Role, loginDto.Roles),
-				new Claim(ClaimTypes.Name, $"{loginDto.UserName}")
+				new Claim(ClaimTypes.Role, check),
+				new Claim(ClaimTypes.Name, $"{user.UserName}")
 			});
 			var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
 
@@ -125,7 +135,7 @@ namespace FlightBookingSystem.Controllers
 			if(user==null)
 				return NotFound(new {Message = "User not Found"});
 
-			loginDto.Token = CreateJwt(loginDto);
+			loginDto.Token = CreateJwt(user);
 
 
 			return Ok(new

@@ -2,6 +2,7 @@
 using FlightBookingSystem.Models.DTOs;
 using FlightBookingSystem.Repositories;
 using FlightBookingSystem.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
@@ -47,6 +48,7 @@ namespace FlightBookingSystem.Controllers
 
 		//Create Passenger
 		[HttpPost]
+		[Authorize(Roles ="Admin")]
 		public async Task<IActionResult> CreateAsync([FromBody] PassengerDto passengerDto)
 		{
 			//Map Dto to Domain model

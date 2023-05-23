@@ -30,6 +30,8 @@ namespace FlightBookingSystem.Models.Domain
 		public string? Roles { get; set; } = "User";
 
 
+
+
 		//Navigation Property
 
 		public IEnumerable<FlightBooking> FlightBookings { get; set; }
