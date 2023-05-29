@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using FlightBookingSystem.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using FlightBookingSystem.Models.DTOs;
-
+using System.Diagnostics;
 
 namespace FlightBookingSystem.Controllers
 {
@@ -43,8 +43,6 @@ namespace FlightBookingSystem.Controllers
 					ArrivalCity = flight.ArrivalCity,
 					DepartureDateTime = flight.DepartureDateTime,
 					ArrivalDateTime = flight.ArrivalDateTime,
-					DepartureCityCode = flight.DepartureCityCode,
-					ArrivalCityCode = flight.ArrivalCityCode,
 					BasePrice = flight.BasePrice,
 					TotalSeats = flight.TotalSeats,
 					AvailableSeats = flight.AvailableSeats
@@ -77,8 +75,6 @@ namespace FlightBookingSystem.Controllers
 				ArrivalCity = flight.ArrivalCity,
 				DepartureDateTime = flight.DepartureDateTime,
 				ArrivalDateTime = flight.ArrivalDateTime,
-				DepartureCityCode = flight.DepartureCityCode,
-				ArrivalCityCode = flight.ArrivalCityCode,
 				BasePrice = flight.BasePrice,
 				TotalSeats = flight.TotalSeats,
 				AvailableSeats = flight.AvailableSeats
@@ -108,8 +104,6 @@ namespace FlightBookingSystem.Controllers
 					ArrivalCity = flights.ArrivalCity,
 					DepartureDateTime = flights.DepartureDateTime,
 					ArrivalDateTime = flights.ArrivalDateTime,
-					DepartureCityCode = flights.DepartureCityCode,
-					ArrivalCityCode = flights.ArrivalCityCode,
 					BasePrice = flights.BasePrice,
 					TotalSeats = flights.TotalSeats,
 					AvailableSeats = flights.AvailableSeats
@@ -152,8 +146,6 @@ namespace FlightBookingSystem.Controllers
 					ArrivalCity = flights.ArrivalCity,
 					DepartureDateTime = flights.DepartureDateTime,
 					ArrivalDateTime = flights.ArrivalDateTime,
-					DepartureCityCode = flights.DepartureCityCode,
-					ArrivalCityCode = flights.ArrivalCityCode,
 					BasePrice = flights.BasePrice,
 					TotalSeats = flights.TotalSeats,
 					AvailableSeats = flights.AvailableSeats
@@ -173,43 +165,36 @@ namespace FlightBookingSystem.Controllers
 
 
 		// Create Flight Details
-		[HttpPost]
-		public async Task<IActionResult> Create([FromBody] FlightDto flightDto)
+		[HttpPost("Add")]
+	
+		public async Task<IActionResult> Create([FromBody] CreateFlightDto flightDto)
 		{
 			// Map DTO to Domain model
 			var flight = new Flight
 			{
-				FlightId = flightDto.FlightId,
+				
 				FlightName = flightDto.FlightName,
 				FlightNumber = flightDto.FlightNumber,
 				DepartureCity = flightDto.DepartureCity,
 				ArrivalCity = flightDto.ArrivalCity,
 				DepartureDateTime = flightDto.DepartureDateTime,
-				ArrivalDateTime = flightDto.ArrivalDateTime,
-				DepartureCityCode = flightDto.DepartureCityCode,
-				ArrivalCityCode = flightDto.ArrivalCityCode,
-				BasePrice = flightDto.BasePrice,
-				TotalSeats = flightDto.TotalSeats,
-				AvailableSeats = flightDto.AvailableSeats
+				BasePrice = flightDto.BasePrice
+				
 			};
 
 			await flightRepository.CreateAsync(flight);
 
 			// Map Domain model to DTO
-			flightDto = new FlightDto
+			flightDto = new CreateFlightDto
 			{
-				FlightId = flight.FlightId,
+				
 				FlightName = flight.FlightName,
 				FlightNumber = flight.FlightNumber,
 				DepartureCity = flight.DepartureCity,
 				ArrivalCity = flight.ArrivalCity,
 				DepartureDateTime = flight.DepartureDateTime,
-				ArrivalDateTime = flight.ArrivalDateTime,
-				DepartureCityCode = flight.DepartureCityCode,
-				ArrivalCityCode = flight.ArrivalCityCode,
-				BasePrice = flight.BasePrice,
-				TotalSeats = flight.TotalSeats,
-				AvailableSeats = flight.AvailableSeats
+				BasePrice = flight.BasePrice
+				
 			};
 			return Ok(flightDto);
 			
@@ -220,23 +205,19 @@ namespace FlightBookingSystem.Controllers
 		// Updating Flight Details
 		[HttpPut]
 		[Route("{id}")]
-		public async Task<IActionResult> UpdateAsync([FromRoute] int id ,[FromBody] FlightDto flightDto)
+		public async Task<IActionResult> UpdateAsync([FromRoute] int id ,[FromBody] CreateFlightDto flightDto)
 		{
 			//Map DTO to Domain Models
 			var flight = new Flight
 			{
-				FlightId = flightDto.FlightId,
+				
 				FlightName = flightDto.FlightName,
 				FlightNumber = flightDto.FlightNumber,
 				DepartureCity = flightDto.DepartureCity,
 				ArrivalCity = flightDto.ArrivalCity,
 				DepartureDateTime = flightDto.DepartureDateTime,
-				ArrivalDateTime = flightDto.ArrivalDateTime,
-				DepartureCityCode = flightDto.DepartureCityCode,
-				ArrivalCityCode = flightDto.ArrivalCityCode,
-				BasePrice = flightDto.BasePrice,
-				TotalSeats = flightDto.TotalSeats,
-				AvailableSeats = flightDto.AvailableSeats
+				BasePrice = flightDto.BasePrice
+				
 			};
 
 			// Check if flight exist
@@ -247,34 +228,26 @@ namespace FlightBookingSystem.Controllers
 			}
 
 			//Map DTO to domain model
-				flight.FlightId = flightDto.FlightId;
+				
 				flight.FlightName = flightDto.FlightName;
 				flight.FlightNumber = flightDto.FlightNumber;
 				flight.DepartureCity = flightDto.DepartureCity;
 				flight.ArrivalCity = flightDto.ArrivalCity;
 				flight.DepartureDateTime = flightDto.DepartureDateTime;
-				flight.ArrivalDateTime = flightDto.ArrivalDateTime;
-				flight.DepartureCityCode = flightDto.DepartureCityCode;
-				flight.ArrivalCityCode = flightDto.ArrivalCityCode;
 				flight.BasePrice = flightDto.BasePrice;
-				flight.TotalSeats = flightDto.TotalSeats;
-				flight.AvailableSeats = flightDto.AvailableSeats;
+				
 
 			// Convert Domain model to DTO
-			flightDto = new FlightDto
+			flightDto = new CreateFlightDto
 			{
-				FlightId = flight.FlightId,
+				
 				FlightName = flight.FlightName,
 				FlightNumber = flight.FlightNumber,
 				DepartureCity = flight.DepartureCity,
 				ArrivalCity = flight.ArrivalCity,
 				DepartureDateTime = flight.DepartureDateTime,
-				ArrivalDateTime = flight.ArrivalDateTime,
-				DepartureCityCode = flight.DepartureCityCode,
-				ArrivalCityCode = flight.ArrivalCityCode,
 				BasePrice = flight.BasePrice,
-				TotalSeats = flight.TotalSeats,
-				AvailableSeats = flight.AvailableSeats
+				
 			};
 
 			return Ok(flightDto);
@@ -305,8 +278,6 @@ namespace FlightBookingSystem.Controllers
 				ArrivalCity = flight.ArrivalCity,
 				DepartureDateTime = flight.DepartureDateTime,
 				ArrivalDateTime = flight.ArrivalDateTime,
-				DepartureCityCode = flight.DepartureCityCode,
-				ArrivalCityCode = flight.ArrivalCityCode,
 				BasePrice = flight.BasePrice,
 				TotalSeats = flight.TotalSeats,
 				AvailableSeats = flight.AvailableSeats

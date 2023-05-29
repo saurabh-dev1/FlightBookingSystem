@@ -64,8 +64,6 @@ namespace FlightBookingSystem.Repositories
 			flightexist.ArrivalDateTime = flight.ArrivalDateTime;
 			flightexist.DepartureCity = flight.DepartureCity;
 			flightexist.ArrivalCity = flight.ArrivalCity;
-			flightexist.ArrivalCityCode = flight.ArrivalCityCode;
-			flightexist.DepartureCityCode = flight.DepartureCityCode;
 			flightexist.BasePrice = flight.BasePrice;
 
 			await dbContext.SaveChangesAsync();
