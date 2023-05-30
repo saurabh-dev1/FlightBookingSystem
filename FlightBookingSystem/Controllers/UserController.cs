@@ -22,26 +22,36 @@ namespace FlightBookingSystem.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetAllAsync()
 		{
-			var users = await userRepository.GetAllAsync();
 
-			var userDto = new List<UserDto>();
-			foreach(var user in users)
+			try
 			{
-				userDto.Add(new UserDto()
-				{
-					UserId = user.UserId,
-					UserName = user.UserName,
-					EmailAddress = user.EmailAddress,
-					Password=user.Password,
-					PhoneNo = user.PhoneNo
-				});
-			}
 
-			return Ok(userDto);
+				var users = await userRepository.GetAllAsync();
+
+				var userDto = new List<UserDto>();
+				foreach (var user in users)
+				{
+					userDto.Add(new UserDto()
+					{
+						UserId = user.UserId,
+						UserName = user.UserName,
+						EmailAddress = user.EmailAddress,
+						Password = user.Password,
+						PhoneNo = user.PhoneNo
+					});
+				}
+
+				return Ok(userDto);
+			}
+			catch (Exception ex)
+			{
+				// Handle the exception here
+				return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the request.");
+			}
 		}
 
-		//Get User By Id
-		[HttpGet]
+	//Get User By Id
+	[HttpGet]
 		[Route("{id}")]
 		public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
 		{

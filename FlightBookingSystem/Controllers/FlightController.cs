@@ -10,16 +10,16 @@ using System.Diagnostics;
 
 namespace FlightBookingSystem.Controllers
 {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
 	[ApiController]
-	
+
 	public class FlightController : ControllerBase
 	{
-		
+
 		private readonly IFlight flightRepository;
 		public FlightController(IFlight flightRepository)
 		{
-			
+
 			this.flightRepository = flightRepository;
 		}
 
@@ -114,12 +114,12 @@ namespace FlightBookingSystem.Controllers
 			{
 				return NotFound();
 			}
-			
+
 			else if (flight.Count == 1)
 			{
 				return Ok(flightDto[0]);
 			}
-			
+
 
 			return Ok(flightDto);
 		}
@@ -166,20 +166,20 @@ namespace FlightBookingSystem.Controllers
 
 		// Create Flight Details
 		[HttpPost("Add")]
-	
+
 		public async Task<IActionResult> Create([FromBody] CreateFlightDto flightDto)
 		{
 			// Map DTO to Domain model
 			var flight = new Flight
 			{
-				
+
 				FlightName = flightDto.FlightName,
 				FlightNumber = flightDto.FlightNumber,
 				DepartureCity = flightDto.DepartureCity,
 				ArrivalCity = flightDto.ArrivalCity,
 				DepartureDateTime = flightDto.DepartureDateTime,
 				BasePrice = flightDto.BasePrice
-				
+
 			};
 
 			await flightRepository.CreateAsync(flight);
@@ -187,17 +187,17 @@ namespace FlightBookingSystem.Controllers
 			// Map Domain model to DTO
 			flightDto = new CreateFlightDto
 			{
-				
+
 				FlightName = flight.FlightName,
 				FlightNumber = flight.FlightNumber,
 				DepartureCity = flight.DepartureCity,
 				ArrivalCity = flight.ArrivalCity,
 				DepartureDateTime = flight.DepartureDateTime,
 				BasePrice = flight.BasePrice
-				
+
 			};
 			return Ok(flightDto);
-			
+
 		}
 
 
@@ -205,49 +205,49 @@ namespace FlightBookingSystem.Controllers
 		// Updating Flight Details
 		[HttpPut]
 		[Route("{id}")]
-		public async Task<IActionResult> UpdateAsync([FromRoute] int id ,[FromBody] CreateFlightDto flightDto)
+		public async Task<IActionResult> UpdateAsync([FromRoute] int id, [FromBody] CreateFlightDto flightDto)
 		{
 			//Map DTO to Domain Models
 			var flight = new Flight
 			{
-				
+
 				FlightName = flightDto.FlightName,
 				FlightNumber = flightDto.FlightNumber,
 				DepartureCity = flightDto.DepartureCity,
 				ArrivalCity = flightDto.ArrivalCity,
 				DepartureDateTime = flightDto.DepartureDateTime,
 				BasePrice = flightDto.BasePrice
-				
+
 			};
 
 			// Check if flight exist
-			flight = await  flightRepository.UpdateAsync(id, flight);
-			if(flight == null)
+			flight = await flightRepository.UpdateAsync(id, flight);
+			if (flight == null)
 			{
 				return NotFound();
 			}
 
 			//Map DTO to domain model
-				
-				flight.FlightName = flightDto.FlightName;
-				flight.FlightNumber = flightDto.FlightNumber;
-				flight.DepartureCity = flightDto.DepartureCity;
-				flight.ArrivalCity = flightDto.ArrivalCity;
-				flight.DepartureDateTime = flightDto.DepartureDateTime;
-				flight.BasePrice = flightDto.BasePrice;
-				
+
+			flight.FlightName = flightDto.FlightName;
+			flight.FlightNumber = flightDto.FlightNumber;
+			flight.DepartureCity = flightDto.DepartureCity;
+			flight.ArrivalCity = flightDto.ArrivalCity;
+			flight.DepartureDateTime = flightDto.DepartureDateTime;
+			flight.BasePrice = flightDto.BasePrice;
+
 
 			// Convert Domain model to DTO
 			flightDto = new CreateFlightDto
 			{
-				
+
 				FlightName = flight.FlightName,
 				FlightNumber = flight.FlightNumber,
 				DepartureCity = flight.DepartureCity,
 				ArrivalCity = flight.ArrivalCity,
 				DepartureDateTime = flight.DepartureDateTime,
 				BasePrice = flight.BasePrice,
-				
+
 			};
 
 			return Ok(flightDto);
@@ -261,10 +261,10 @@ namespace FlightBookingSystem.Controllers
 		[Route("{id}")]
 		public async Task<IActionResult> DeleteAsync([FromRoute] int id)
 		{
-			
+
 			var flight = await flightRepository.DeleteAsync(id);
 
-			if(flight == null)
+			if (flight == null)
 			{
 				return NotFound();
 			}

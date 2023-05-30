@@ -6,14 +6,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlightBookingSystem.Repositories
 {
-    public class FlightRepository : IFlight
+	public class FlightRepository : IFlight
 	{
 		private readonly FlightDbContext dbContext;
 
 		public FlightRepository(FlightDbContext dbContext)
-        {
-            this.dbContext = dbContext;
-        }
+		{
+			this.dbContext = dbContext;
+		}
 
 		//Get All Flights
 		public async Task<List<Flight>> GetAllAsync()
@@ -85,6 +85,6 @@ namespace FlightBookingSystem.Repositories
 			return flightexist;
 		}
 
-		
+
 	}
 }

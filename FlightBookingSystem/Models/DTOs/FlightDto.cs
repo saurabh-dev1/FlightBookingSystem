@@ -45,8 +45,8 @@ namespace FlightBookingSystem.Models.DTOs
 		[DisplayName("Available Seats")]
 		public int AvailableSeats { get; set; }
 
-		
-		
+
+
 
 	}
 }
