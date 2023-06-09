@@ -37,7 +37,7 @@ namespace FlightBookingSystem.Repositories
 		//Get Flight By City Names
 		public async Task<List<Flight>> GetByCitiesAsync(string DepartureCity, string ArrivalCity, DateTime DepartureDateTime)
 		{
-			var flight = await dbContext.Flights.Where(m => m.DepartureCity == DepartureCity && m.ArrivalCity == ArrivalCity && m.DepartureDateTime == DepartureDateTime).ToListAsync();
+			var flight = await dbContext.Flights.Where(m => m.DepartureCity == DepartureCity && m.ArrivalCity == ArrivalCity && m.DepartureDateTime.Date == DepartureDateTime).ToListAsync();
 			return flight;
 		}
 

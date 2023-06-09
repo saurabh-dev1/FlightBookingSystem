@@ -155,10 +155,7 @@ namespace FlightBookingSystem.Controllers
 			{
 				return NotFound();
 			}
-			else if (flight.Count == 1)
-			{
-				return Ok(flightDto[0]);
-			}
+			
 			return Ok(flight);
 		}
 
