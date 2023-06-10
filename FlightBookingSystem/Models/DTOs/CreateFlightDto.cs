@@ -30,6 +30,11 @@ namespace FlightBookingSystem.Models.DTOs
 		[DisplayName("Departure Time")]
 		public DateTime DepartureDateTime { get; set; }
 
+		[Required(ErrorMessage = "Arrival time is Required")]
+		[DataType(DataType.Date, ErrorMessage = "Invalid Arrival time format")]
+		[DisplayName("Arrival Time")]
+		public DateTime ArrivalDateTime { get; set; }
+
 		[Required(ErrorMessage = "Price is Required")]
 		[DisplayName("Base Price")]
 		public double BasePrice { get; set; }

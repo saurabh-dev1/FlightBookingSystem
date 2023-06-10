@@ -48,7 +48,7 @@ namespace FlightBookingSystem.Controllers
 
 		//Create Passenger
 		[HttpPost]
-		[Authorize(Roles ="Admin")]
+		
 		public async Task<IActionResult> CreateAsync([FromBody] PassengerDto passengerDto)
 		{
 			//Map Dto to Domain model
