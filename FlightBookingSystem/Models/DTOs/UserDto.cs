@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using FlightBookingSystem.Models.Domain;
 
 namespace FlightBookingSystem.Models.DTOs
 {
@@ -27,7 +28,7 @@ namespace FlightBookingSystem.Models.DTOs
 		[Required(ErrorMessage = "PhoneNo is Required")]
 		public string PhoneNo { get; set; }
 
-
+		
 
 
 	}

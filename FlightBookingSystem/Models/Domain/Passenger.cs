@@ -36,10 +36,10 @@ namespace FlightBookingSystem.Models.Domain
 
 
 		//Foreign Key
-		[ForeignKey("User")]
+		
 		public int UserId { get; set; }
 
-		[ForeignKey("FlightBooking")]
+		
 		public int FlightBookingId { get; set; }
 		
 		

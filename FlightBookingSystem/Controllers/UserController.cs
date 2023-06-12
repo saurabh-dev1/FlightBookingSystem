@@ -90,16 +90,16 @@ namespace FlightBookingSystem.Controllers
 			await userRepository.CreateAsync(user);
 
 			//Map Domain modle to Dto
-			userDto = new CreateUserDto
+			var userDto1 = new UserDto
 			{
-				
+				UserId = user.UserId,
 				UserName = user.UserName,
 				EmailAddress = user.EmailAddress,
 				Password = user.Password,
 				PhoneNo = user.PhoneNo
 			};
 
-			return Ok(userDto);
+			return Ok(userDto1);
 		}
 
 		// Update User

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using FlightBookingSystem.Models.Domain;
 
 namespace FlightBookingSystem.Models.DTOs
 {
@@ -45,6 +46,7 @@ namespace FlightBookingSystem.Models.DTOs
 		[DisplayName("Available Seats")]
 		public int AvailableSeats { get; set; }
 
+		
 
 
 

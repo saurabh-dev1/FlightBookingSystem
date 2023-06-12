@@ -1,15 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
-using FlightBookingSystem.Models.Domain;
-using Microsoft.AspNetCore.SignalR;
 
 namespace FlightBookingSystem.Models.DTOs
 {
-	public class FlightBookingDto
+	public class CreateFlightBookingDto
 	{
-		
-		public int FlightBookingId { get; set; }
-
 		[Required(ErrorMessage = "Departure City is Required")]
 		[StringLength(30, ErrorMessage = "Departure City cannot be longer than 30 character")]
 		[DisplayName("From")]
@@ -32,13 +27,11 @@ namespace FlightBookingSystem.Models.DTOs
 
 		[Required(ErrorMessage = "No. of Passengers is Required")]
 		[DisplayName("No. of Passengers")]
-		
+
 		public int NoOfPassenger { get; set; }
 
 		public int FlightId { get; set; }
-		
+
 		public int UserId { get; set; }
-		/*public FlightDto Flight { get; set; }
-		public UserDto User { get; set; }*/
 	}
 }

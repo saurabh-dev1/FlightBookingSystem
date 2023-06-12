@@ -141,7 +141,8 @@ namespace FlightBookingSystem.Controllers
 			return Ok(new
 			{
 				Token = loginDto.Token,
-				Message = user.Roles
+				Message = user.Roles,
+				userId = user.UserId
 				}); 
 
 

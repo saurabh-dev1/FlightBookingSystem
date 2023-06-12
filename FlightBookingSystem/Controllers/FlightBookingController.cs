@@ -14,16 +14,20 @@ namespace FlightBookingSystem.Controllers
 	public class FlightBookingController : ControllerBase
 	{
 		private readonly IFlightBooking flightBookingRepository;
+		private readonly IUser users;
+		private readonly IFlight flights;
 
-		public FlightBookingController(IFlightBooking flightBooking)
+		public FlightBookingController(IFlightBooking flightBooking, IUser users, IFlight flights)
         {
 			this.flightBookingRepository = flightBooking;
+			this.users = users;
+			this.flights = flights;
 		}
 
 
 		// Get All Bookings
 		[HttpGet]
-		[Authorize(Roles = "User")]
+		
 		public async Task<IActionResult> GetAll()
 		{
 			var booking = await flightBookingRepository.GetAllAsync();
@@ -32,6 +36,7 @@ namespace FlightBookingSystem.Controllers
 			var bookingDto = new List<FlightBookingDto>();
 			foreach (var flightBooking in booking)
 			{
+				
 				bookingDto.Add(new FlightBookingDto()
 				{
 					FlightBookingId = flightBooking.FlightBookingId,
@@ -42,6 +47,7 @@ namespace FlightBookingSystem.Controllers
 					NoOfPassenger = flightBooking.NoOfPassenger,
 					FlightId = flightBooking.FlightId,
 					UserId = flightBooking.UserId,
+					
 				}); 
 				
 			}
@@ -79,26 +85,29 @@ namespace FlightBookingSystem.Controllers
 
 		//Create Bookings
 		[HttpPost]
-		[Authorize(Roles = "User")]
-		public async Task<IActionResult> CreateBooking([FromBody] FlightBookingDto flightBookingDto)
+		
+		public async Task<IActionResult> CreateBooking([FromBody] CreateFlightBookingDto flightBookingDto)
 		{
 			// Map DTO to Domain model
 			var booking = new FlightBooking
 			{
-				FlightBookingId = flightBookingDto.FlightBookingId,
+				
 				DepartureCity = flightBookingDto.DepartureCity,
 				ArrivalCity = flightBookingDto.ArrivalCity,
 				DepartureDateTime = flightBookingDto.DepartureDateTime,
 				ArrivalDateTime = flightBookingDto.ArrivalDateTime,
 				NoOfPassenger = flightBookingDto.NoOfPassenger,
-				FlightId = flightBookingDto.FlightId
-				
+				FlightId = flightBookingDto.FlightId,
+				UserId = flightBookingDto.UserId
+
+
 			};
 
 			await flightBookingRepository.CreateAsync(booking);
 
 			//Map Domain model to Dto
-			flightBookingDto = new FlightBookingDto
+
+			var flightBookingDto1 = new FlightBookingDto
 			{
 				FlightBookingId = booking.FlightBookingId,
 				DepartureCity = booking.DepartureCity,
@@ -110,7 +119,7 @@ namespace FlightBookingSystem.Controllers
 				UserId = booking.UserId
 			};
 
-			return Ok(flightBookingDto);
+			return Ok(flightBookingDto1);
 
 		}
 

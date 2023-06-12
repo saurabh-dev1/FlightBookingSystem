@@ -14,10 +14,14 @@ namespace FlightBookingSystem.Controllers
 	public class PassengerController : ControllerBase
 	{
 		private readonly IPassenger passengerRepository;
+		private readonly IFlightBooking flightBooking;
+		private readonly IUser User;
 
-		public PassengerController(IPassenger passengerRepository)
+		public PassengerController(IPassenger passengerRepository, IFlightBooking flightBooking, IUser User)
 		{
 			this.passengerRepository = passengerRepository;
+			this.flightBooking = flightBooking;
+			this.User = User;
 		}
 
 		// Get All Passengers
@@ -64,7 +68,11 @@ namespace FlightBookingSystem.Controllers
 				FlightBookingId = passengerDto.FlightBookingId
 			};
 
+			
+
+			// Save the passenger entity
 			await passengerRepository.CreateAsync(passenger);
+
 			//Map Domain model back to Dto
 			passengerDto = new PassengerDto
 			{
