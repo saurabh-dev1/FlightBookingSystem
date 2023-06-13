@@ -86,7 +86,7 @@ namespace FlightBookingSystem.Controllers
 		//Create Bookings
 		[HttpPost("Add")]
 		
-		public async Task<IActionResult> CreateBooking([FromBody] CreateFlightBookingDto flightBookingDto)
+		public async Task<IActionResult> CreateBooking( CreateFlightBookingDto flightBookingDto)
 		{
 			// Map DTO to Domain model
 			var booking = new FlightBooking
