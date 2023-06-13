@@ -84,7 +84,7 @@ namespace FlightBookingSystem.Controllers
 		}
 
 		//Create Bookings
-		[HttpPost]
+		[HttpPost("Add")]
 		
 		public async Task<IActionResult> CreateBooking([FromBody] CreateFlightBookingDto flightBookingDto)
 		{

@@ -16,12 +16,12 @@ namespace FlightBookingSystem.Models.DTOs
 		public string ArrivalCity { get; set; }
 
 		[Required(ErrorMessage = "Departure time is Required")]
-		[DataType(DataType.DateTime, ErrorMessage = "Invalid departure time format")]
+		
 		[DisplayName("Departure Time")]
 		public DateTime DepartureDateTime { get; set; }
 
 		[Required(ErrorMessage = "Arrival time is Required")]
-		[DataType(DataType.DateTime, ErrorMessage = "Invalid Arrival time format")]
+		
 		[DisplayName("Arrival Time")]
 		public DateTime ArrivalDateTime { get; set; }
 

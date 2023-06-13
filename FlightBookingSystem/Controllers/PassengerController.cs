@@ -53,12 +53,12 @@ namespace FlightBookingSystem.Controllers
 		//Create Passenger
 		[HttpPost]
 		
-		public async Task<IActionResult> CreateAsync([FromBody] PassengerDto passengerDto)
+		public async Task<IActionResult> CreateAsync([FromBody] CreatePassengerDto passengerDto)
 		{
 			//Map Dto to Domain model
 			var passenger = new Passenger
 			{
-				PassengerId = passengerDto.PassengerId,
+				
 				FirstName = passengerDto.FirstName,
 				LastName = passengerDto.LastName,
 				Age = passengerDto.Age,
@@ -74,7 +74,7 @@ namespace FlightBookingSystem.Controllers
 			await passengerRepository.CreateAsync(passenger);
 
 			//Map Domain model back to Dto
-			passengerDto = new PassengerDto
+			var passengerDto1 = new PassengerDto
 			{
 				PassengerId = passenger.PassengerId,
 				FirstName = passenger.FirstName,
@@ -85,7 +85,7 @@ namespace FlightBookingSystem.Controllers
 				UserId = passenger.UserId,
 				FlightBookingId = passenger.FlightBookingId
 			};
-			return Ok(passengerDto);
+			return Ok(passengerDto1);
 		}
 
 		//Get Passenger By id
