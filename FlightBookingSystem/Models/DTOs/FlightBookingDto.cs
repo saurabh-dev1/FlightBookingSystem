@@ -33,7 +33,7 @@ namespace FlightBookingSystem.Models.DTOs
 		[Required(ErrorMessage = "No. of Passengers is Required")]
 		[DisplayName("No. of Passengers")]
 		
-		public int NoOfPassenger { get; set; }
+		
 
 		public int FlightId { get; set; }
 		

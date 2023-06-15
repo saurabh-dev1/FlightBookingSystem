@@ -50,7 +50,7 @@ namespace FlightBookingSystem.Repositories
 			existBooking.ArrivalDateTime = booking.ArrivalDateTime;
 			existBooking.DepartureCity = booking.DepartureCity;
 			existBooking.ArrivalCity = booking.DepartureCity;
-			existBooking.NoOfPassenger = booking.NoOfPassenger;
+			
 			
 
 			await dbContext.SaveChangesAsync();

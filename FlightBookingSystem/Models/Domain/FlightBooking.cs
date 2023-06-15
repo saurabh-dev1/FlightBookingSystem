@@ -32,7 +32,7 @@ namespace FlightBookingSystem.Models.Domain
 		[Required(ErrorMessage = "No. of Passengers is Required")]
 		[DisplayName("No. of Passengers")]
 		
-		public int NoOfPassenger { get; set; }
+		
 
 
 		//Foreign Key

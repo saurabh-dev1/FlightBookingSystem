@@ -44,7 +44,6 @@ namespace FlightBookingSystem.Controllers
 					ArrivalCity = flightBooking.ArrivalCity,
 					DepartureDateTime = flightBooking.DepartureDateTime,
 					ArrivalDateTime = flightBooking.ArrivalDateTime,
-					NoOfPassenger = flightBooking.NoOfPassenger,
 					FlightId = flightBooking.FlightId,
 					UserId = flightBooking.UserId,
 					
@@ -76,7 +75,6 @@ namespace FlightBookingSystem.Controllers
 				ArrivalCity = booking.ArrivalCity,
 				DepartureDateTime = booking.DepartureDateTime,
 				ArrivalDateTime = booking.ArrivalDateTime,
-				NoOfPassenger = booking.NoOfPassenger,
 				FlightId = booking.FlightId,
 				UserId = booking.UserId
 			};
@@ -96,7 +94,6 @@ namespace FlightBookingSystem.Controllers
 				ArrivalCity = flightBookingDto.ArrivalCity,
 				DepartureDateTime = flightBookingDto.DepartureDateTime,
 				ArrivalDateTime = flightBookingDto.ArrivalDateTime,
-				NoOfPassenger = flightBookingDto.NoOfPassenger,
 				FlightId = flightBookingDto.FlightId,
 				UserId = flightBookingDto.UserId
 
@@ -114,7 +111,6 @@ namespace FlightBookingSystem.Controllers
 				ArrivalCity = booking.ArrivalCity,
 				DepartureDateTime = booking.DepartureDateTime,
 				ArrivalDateTime = booking.ArrivalDateTime,
-				NoOfPassenger = booking.NoOfPassenger,
 				FlightId = booking.FlightId,
 				UserId = booking.UserId
 			};
@@ -137,7 +133,6 @@ namespace FlightBookingSystem.Controllers
 				ArrivalCity = flightBookingDto.ArrivalCity,
 				DepartureDateTime = flightBookingDto.DepartureDateTime,
 				ArrivalDateTime = flightBookingDto.ArrivalDateTime,
-				NoOfPassenger = flightBookingDto.NoOfPassenger,
 				FlightId = flightBookingDto.FlightId,
 				UserId = flightBookingDto.UserId
 			};
@@ -155,7 +150,6 @@ namespace FlightBookingSystem.Controllers
 				booking.ArrivalCity = flightBookingDto.ArrivalCity;
 				booking.DepartureDateTime = flightBookingDto.DepartureDateTime;
 				booking.ArrivalDateTime = flightBookingDto.ArrivalDateTime;
-				booking.NoOfPassenger = flightBookingDto.NoOfPassenger;
 			booking.FlightId = flightBookingDto.FlightId;
 			booking.UserId = flightBookingDto.UserId;
 
@@ -167,7 +161,6 @@ namespace FlightBookingSystem.Controllers
 				ArrivalCity = booking.ArrivalCity,
 				DepartureDateTime = booking.DepartureDateTime,
 				ArrivalDateTime = booking.ArrivalDateTime,
-				NoOfPassenger = booking.NoOfPassenger,
 				FlightId = booking.FlightId,
 				UserId = booking.UserId
 			};
@@ -194,7 +187,6 @@ namespace FlightBookingSystem.Controllers
 				ArrivalCity = booking.ArrivalCity,
 				DepartureDateTime = booking.DepartureDateTime,
 				ArrivalDateTime = booking.ArrivalDateTime,
-				NoOfPassenger = booking.NoOfPassenger,
 				FlightId = booking.FlightId,
 				UserId = booking.UserId
 			};
@@ -219,7 +211,6 @@ namespace FlightBookingSystem.Controllers
 					ArrivalCity = booking.ArrivalCity,
 					DepartureDateTime = booking.DepartureDateTime,
 					ArrivalDateTime = booking.ArrivalDateTime,
-					NoOfPassenger = booking.NoOfPassenger,
 					FlightId = booking.FlightId,
 					UserId = booking.UserId
 				});
