@@ -29,9 +29,7 @@ namespace FlightBookingSystem.Models.Domain
 		[DisplayName("Arrival Time")]
 		public DateTime ArrivalDateTime { get; set; }
 
-		[Required(ErrorMessage = "No. of Passengers is Required")]
-		[DisplayName("No. of Passengers")]
-		
+	
 		
 
 
