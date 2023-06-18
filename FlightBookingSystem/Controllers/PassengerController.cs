@@ -42,6 +42,7 @@ namespace FlightBookingSystem.Controllers
 					Age = passenger.Age,
 					Gender = passenger.Gender,
 					PhoneNumber = passenger.PhoneNumber,
+					AllocatedSeat=passenger.AllocatedSeat,
 					UserId = passenger.UserId,
 					FlightBookingId = passenger.FlightBookingId
 				});
@@ -64,6 +65,7 @@ namespace FlightBookingSystem.Controllers
 				Age = passengerDto.Age,
 				Gender = passengerDto.Gender,
 				PhoneNumber = passengerDto.PhoneNumber,
+				AllocatedSeat=passengerDto.AllocatedSeat,
 				UserId = passengerDto.UserId,
 				FlightBookingId = passengerDto.FlightBookingId
 			};
@@ -82,6 +84,7 @@ namespace FlightBookingSystem.Controllers
 				Age = passenger.Age,
 				Gender = passenger.Gender,
 				PhoneNumber = passenger.PhoneNumber,
+				AllocatedSeat=passenger.AllocatedSeat,
 				UserId = passenger.UserId,
 				FlightBookingId = passenger.FlightBookingId
 			};
@@ -107,6 +110,7 @@ namespace FlightBookingSystem.Controllers
 				Age = passenger.Age,
 				Gender = passenger.Gender,
 				PhoneNumber = passenger.PhoneNumber,
+				AllocatedSeat=passenger.AllocatedSeat,
 				UserId = passenger.UserId,
 				FlightBookingId = passenger.FlightBookingId
 			};
@@ -132,6 +136,7 @@ namespace FlightBookingSystem.Controllers
 					Age = passenger.Age,
 					Gender = passenger.Gender,
 					PhoneNumber = passenger.PhoneNumber,
+					AllocatedSeat=passenger.AllocatedSeat,
 					UserId = passenger.UserId,
 					FlightBookingId = passenger.FlightBookingId
 				});
@@ -162,6 +167,7 @@ namespace FlightBookingSystem.Controllers
 				Age = passengerDto.Age,
 				Gender = passengerDto.Gender,
 				PhoneNumber = passengerDto.PhoneNumber,
+				AllocatedSeat=passengerDto.AllocatedSeat,
 				UserId = passengerDto.UserId,
 				FlightBookingId = passengerDto.FlightBookingId
 			};
@@ -179,6 +185,7 @@ namespace FlightBookingSystem.Controllers
 				passenger.Age = passengerDto.Age;
 				passenger.Gender = passengerDto.Gender;
 				passenger.PhoneNumber = passengerDto.PhoneNumber;
+				passenger.AllocatedSeat = passengerDto.AllocatedSeat;
 				passenger.UserId = passengerDto.UserId;
 				passenger.FlightBookingId = passengerDto.FlightBookingId;
 
@@ -191,6 +198,7 @@ namespace FlightBookingSystem.Controllers
 				Age = passenger.Age,
 				Gender = passenger.Gender,
 				PhoneNumber = passenger.PhoneNumber,
+				AllocatedSeat = passenger.AllocatedSeat,
 				UserId = passenger.UserId,
 				FlightBookingId = passenger.FlightBookingId
 			};
@@ -216,6 +224,7 @@ namespace FlightBookingSystem.Controllers
 				Age = passenger.Age,
 				Gender = passenger.Gender,
 				PhoneNumber = passenger.PhoneNumber,
+				AllocatedSeat = passenger.AllocatedSeat,
 				UserId = passenger.UserId,
 				FlightBookingId = passenger.FlightBookingId
 			};

@@ -37,7 +37,8 @@ namespace FlightBookingSystem.Controllers
 						UserName = user.UserName,
 						EmailAddress = user.EmailAddress,
 						Password = user.Password,
-						PhoneNo = user.PhoneNo
+						PhoneNo = user.PhoneNo,
+						Roles = user.Roles
 					});
 				}
 
@@ -96,7 +97,8 @@ namespace FlightBookingSystem.Controllers
 				UserName = user.UserName,
 				EmailAddress = user.EmailAddress,
 				Password = user.Password,
-				PhoneNo = user.PhoneNo
+				PhoneNo = user.PhoneNo,
+				Roles = user.Roles
 			};
 
 			return Ok(userDto1);

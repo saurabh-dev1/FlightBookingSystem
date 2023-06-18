@@ -28,7 +28,7 @@ namespace FlightBookingSystem.Models.DTOs
 		[Required(ErrorMessage = "PhoneNo is Required")]
 		public string PhoneNo { get; set; }
 
-		
+		public string? Roles { get; set; } = "User";
 
 
 	}

@@ -53,6 +53,7 @@ namespace FlightBookingSystem.Repositories
 			passengerExist.Age = passenger.Age;
 			passengerExist.Gender = passenger.Gender;
 			passengerExist.PhoneNumber = passenger.PhoneNumber;
+			passengerExist.AllocatedSeat = passenger.AllocatedSeat;
 			
 
 			await flightDbContext.SaveChangesAsync();

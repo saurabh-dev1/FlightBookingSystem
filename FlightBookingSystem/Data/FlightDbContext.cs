@@ -15,7 +15,6 @@ namespace FlightBookingSystem.Data
 		public DbSet<User> Users { get; set; }
 		public DbSet<Admin> Admins { get; set; }
 	
-		public DbSet<SeatAllocation> SeatAllocations { get; set; }
 		public DbSet<Payment> Payments { get; set; }
 		public DbSet<FlightBooking> FlightBookings { get; set; }
 

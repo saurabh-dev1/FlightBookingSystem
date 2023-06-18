@@ -31,6 +31,9 @@ namespace FlightBookingSystem.Models.DTOs
 		
 		public string PhoneNumber { get; set; }
 
+		[Required]
+		public string AllocatedSeat { get; set; }
+
 
 		//Foreign Key
 		public int UserId { get; set; }
