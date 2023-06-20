@@ -1,5 +1,6 @@
 ﻿using FlightBookingSystem.Data;
 using FlightBookingSystem.Models.Domain;
+using FlightBookingSystem.Models.DTOs;
 using FlightBookingSystem.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
@@ -64,6 +65,7 @@ namespace FlightBookingSystem.Repositories
 			flightexist.ArrivalDateTime = flight.ArrivalDateTime;
 			flightexist.DepartureCity = flight.DepartureCity;
 			flightexist.ArrivalCity = flight.ArrivalCity;
+			flightexist.TotalSeats = flight.TotalSeats;
 			flightexist.BasePrice = flight.BasePrice;
 
 			await dbContext.SaveChangesAsync();

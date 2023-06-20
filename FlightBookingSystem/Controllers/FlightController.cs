@@ -176,6 +176,7 @@ namespace FlightBookingSystem.Controllers
 				ArrivalCity = flightDto.ArrivalCity,
 				DepartureDateTime = flightDto.DepartureDateTime,
 				ArrivalDateTime = flightDto.ArrivalDateTime,
+				TotalSeats = flightDto.TotalSeats,
 				BasePrice = flightDto.BasePrice
 
 			};
@@ -192,6 +193,7 @@ namespace FlightBookingSystem.Controllers
 				ArrivalCity = flight.ArrivalCity,
 				DepartureDateTime = flight.DepartureDateTime,
 				ArrivalDateTime = flight.ArrivalDateTime,
+				TotalSeats = flight.TotalSeats,
 				BasePrice = flight.BasePrice
 
 			};
@@ -216,6 +218,7 @@ namespace FlightBookingSystem.Controllers
 				ArrivalCity = flightDto.ArrivalCity,
 				DepartureDateTime = flightDto.DepartureDateTime,
 				ArrivalDateTime = flightDto.ArrivalDateTime,
+				TotalSeats = flightDto.TotalSeats,
 				BasePrice = flightDto.BasePrice
 
 			};
@@ -235,6 +238,7 @@ namespace FlightBookingSystem.Controllers
 			flight.ArrivalCity = flightDto.ArrivalCity;
 			flight.DepartureDateTime = flightDto.DepartureDateTime;
 			flight.ArrivalDateTime = flightDto.ArrivalDateTime;
+			flight.TotalSeats = flightDto.TotalSeats;
 			flight.BasePrice = flightDto.BasePrice;
 
 
@@ -248,6 +252,7 @@ namespace FlightBookingSystem.Controllers
 				ArrivalCity = flight.ArrivalCity,
 				DepartureDateTime = flight.DepartureDateTime,
 				ArrivalDateTime = flight.ArrivalDateTime,
+				TotalSeats = flight.TotalSeats,
 				BasePrice = flight.BasePrice,
 
 			};

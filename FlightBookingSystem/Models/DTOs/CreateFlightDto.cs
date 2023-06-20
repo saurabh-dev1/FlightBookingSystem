@@ -35,6 +35,12 @@ namespace FlightBookingSystem.Models.DTOs
 		[DisplayName("Arrival Time")]
 		public DateTime ArrivalDateTime { get; set; }
 
+
+		[Required]
+		[DisplayName("Total Seats")]
+
+		public int TotalSeats { get; set; }
+
 		[Required(ErrorMessage = "Price is Required")]
 		[DisplayName("Base Price")]
 		public double BasePrice { get; set; }
