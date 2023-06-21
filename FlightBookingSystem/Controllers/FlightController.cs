@@ -23,6 +23,8 @@ namespace FlightBookingSystem.Controllers
 			this.flightRepository = flightRepository;
 		}
 
+		
+
 		// Get All Flights
 		[HttpGet]
 		/*[Authorize(Roles = "User, Admin")]*/
@@ -45,7 +47,7 @@ namespace FlightBookingSystem.Controllers
 					ArrivalDateTime = flight.ArrivalDateTime,
 					BasePrice = flight.BasePrice,
 					TotalSeats = flight.TotalSeats,
-					AvailableSeats = flight.AvailableSeats
+					AvailableSeats = flight.GetAvailableSeats()
 				});
 			}
 
@@ -77,7 +79,7 @@ namespace FlightBookingSystem.Controllers
 				ArrivalDateTime = flight.ArrivalDateTime,
 				BasePrice = flight.BasePrice,
 				TotalSeats = flight.TotalSeats,
-				AvailableSeats = flight.AvailableSeats
+				AvailableSeats = flight.GetAvailableSeats()
 			};
 			return Ok(flightDto);
 		}
@@ -106,7 +108,7 @@ namespace FlightBookingSystem.Controllers
 					ArrivalDateTime = flights.ArrivalDateTime,
 					BasePrice = flights.BasePrice,
 					TotalSeats = flights.TotalSeats,
-					AvailableSeats = flights.AvailableSeats
+					AvailableSeats = flights.GetAvailableSeats()
 				});
 			}
 
@@ -148,7 +150,7 @@ namespace FlightBookingSystem.Controllers
 					ArrivalDateTime = flights.ArrivalDateTime,
 					BasePrice = flights.BasePrice,
 					TotalSeats = flights.TotalSeats,
-					AvailableSeats = flights.AvailableSeats
+					AvailableSeats = flights.GetAvailableSeats()
 				});
 			}
 			if (flight.Count == 0)
@@ -186,7 +188,7 @@ namespace FlightBookingSystem.Controllers
 			// Map Domain model to DTO
 			flightDto = new CreateFlightDto
 			{
-
+				
 				FlightName = flight.FlightName,
 				FlightNumber = flight.FlightNumber,
 				DepartureCity = flight.DepartureCity,
@@ -287,7 +289,7 @@ namespace FlightBookingSystem.Controllers
 				ArrivalDateTime = flight.ArrivalDateTime,
 				BasePrice = flight.BasePrice,
 				TotalSeats = flight.TotalSeats,
-				AvailableSeats = flight.AvailableSeats
+				AvailableSeats = flight.GetAvailableSeats()
 			};
 			return Ok(flightDto);
 		}

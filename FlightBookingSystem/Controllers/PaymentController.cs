@@ -1,4 +1,6 @@
-﻿using FlightBookingSystem.Models.DTOs;
+﻿using FlightBookingSystem.Models.Domain;
+using FlightBookingSystem.Models.DTOs;
+using FlightBookingSystem.Repositories;
 using FlightBookingSystem.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -65,7 +67,7 @@ namespace FlightBookingSystem.Controllers
 		[Route("GetByBookingId/{id}")]
 		public async Task<IActionResult> GetByBookingId([FromRoute] int id)
 		{
-			var payments = await paymentReposiotry.GetByBookinIdAsync(id);
+			var payments = await paymentReposiotry.GetByBookingIdAsync(id);
 			var paymentDto = new List<PaymentDto>();
 			foreach(var payment in payments)
 			{
@@ -83,5 +85,63 @@ namespace FlightBookingSystem.Controllers
 		}
 
 
-    }
+		//Create Payment
+		[HttpPost("Add")]
+		public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentDto paymentDto)
+		{
+			// Map DTO to Domain model
+			var payment = new Payment
+			{
+				
+				PayemntTime = paymentDto.PayemntTime,
+				PaymentMethod = paymentDto.PaymentMethod,
+				PaymentStatus = paymentDto.PaymentStatus,
+				TotalPrice = paymentDto.TotalPrice,
+				FlightBookingId = paymentDto.FlightBookingId
+			};
+
+			await paymentReposiotry.CreateAsync(payment);
+
+			//Map Domain model to Dto
+
+			var paymentDto1 = new PaymentDto
+			{
+				PaymentId = payment.PaymentId,
+				PayemntTime = payment.PayemntTime,
+				PaymentMethod = payment.PaymentMethod,
+				PaymentStatus = payment.PaymentStatus,
+				TotalPrice = payment.TotalPrice,
+				FlightBookingId = payment.FlightBookingId
+			};
+
+			return Ok(paymentDto1);
+
+		}
+
+		//Delete Payment
+		[HttpDelete]
+		[Route("{id}")]
+		public async Task<IActionResult> DeletePayment([FromRoute] int id)
+		{
+			var payment = await paymentReposiotry.DeleteAsync(id);
+			if (payment == null)
+			{
+				return NotFound();
+			}
+
+			// Convert domain model to dto
+			var paymentDto = new PaymentDto
+			{
+				PaymentId = payment.PaymentId,
+				PayemntTime = payment.PayemntTime,
+				PaymentMethod = payment.PaymentMethod,
+				PaymentStatus = payment.PaymentStatus,
+				TotalPrice = payment.TotalPrice,
+				FlightBookingId = payment.FlightBookingId
+			};
+
+			return Ok(paymentDto);
+		}
+
+	}
 }

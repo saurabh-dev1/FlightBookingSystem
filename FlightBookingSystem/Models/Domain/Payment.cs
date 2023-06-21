@@ -10,7 +10,7 @@ namespace FlightBookingSystem.Models.Domain
 
 		[Required]
 		[DisplayName("Payment Date/Time")]
-		public DateTime PayemntTime { get; set; }
+		public DateTime PayemntTime { get; set; } = DateTime.Now;
 
 		[Required]
 		[DisplayName("Payment Method")]

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using FlightBookingSystem.Repositories.Interfaces;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace FlightBookingSystem.Models.Domain
@@ -52,5 +53,19 @@ namespace FlightBookingSystem.Models.Domain
 
 		//Navigation Properties
 		public IEnumerable<FlightBooking> FlightBooking { get; set; }
+
+		public int GetAvailableSeats()
+		{
+			int allocatedSeats = FlightBooking?.Sum(fb => fb.Passenger?.Count() ?? 0) ?? 0;
+			int availableSeats = TotalSeats - allocatedSeats;
+
+			// Ensure the available seats count is not negative
+			if (availableSeats < 0)
+			{
+				availableSeats = 0;
+			}
+
+			return availableSeats;
+		}
 	}
 }
