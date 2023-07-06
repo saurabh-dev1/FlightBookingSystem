@@ -82,6 +82,7 @@ namespace FlightBookingSystem.Controllers
 		}
 
 		//Create Bookings
+		
 		[HttpPost("Add")]
 		
 		public async Task<IActionResult> CreateBooking( CreateFlightBookingDto flightBookingDto)
@@ -229,6 +230,40 @@ namespace FlightBookingSystem.Controllers
 			return Ok(bookingDto);
 		}
 
+		[HttpGet]
+		[Route("{userId}/{flightId}")]
+		public async Task<IActionResult> GetByUserFlightId([FromRoute] int userId, [FromRoute] int flightId)
+		{
+			var bookings = await flightBookingRepository.GetByUserAndFlightId(userId,flightId);
+			var bookingDto = new List<FlightBookingDto>();
+
+			foreach (var booking in bookings)
+			{
+				//Map Domian model to Dto
+				bookingDto.Add(new FlightBookingDto()
+				{
+					FlightBookingId = booking.FlightBookingId,
+					DepartureCity = booking.DepartureCity,
+					ArrivalCity = booking.ArrivalCity,
+					DepartureDateTime = booking.DepartureDateTime,
+					ArrivalDateTime = booking.ArrivalDateTime,
+					FlightId = booking.FlightId,
+					UserId = booking.UserId
+				});
+			}
+			if (bookings.Count == 0)
+			{
+				return NotFound();
+			}
+
+			else if (bookings.Count == 1)
+			{
+				return Ok(bookingDto[0]);
+			}
+
+
+			return Ok(bookingDto);
+		}
 
 	}
 }

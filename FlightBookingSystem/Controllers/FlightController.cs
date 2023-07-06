@@ -27,7 +27,7 @@ namespace FlightBookingSystem.Controllers
 
 		// Get All Flights
 		[HttpGet]
-		/*[Authorize(Roles = "User, Admin")]*/
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> GetAllFlight()
 		{
 			var flights = await flightRepository.GetAllAsync();
@@ -130,6 +130,7 @@ namespace FlightBookingSystem.Controllers
 
 
 		// Get Flight by Cities and time
+		
 		[HttpGet]
 		[Route("GetByCities/{departCity}/{arrivalCity}/{DepartureTime}")]
 		public async Task<IActionResult> GetByCities([FromRoute] string departCity, [FromRoute] string arrivalCity, [FromRoute] DateTime DepartureTime)

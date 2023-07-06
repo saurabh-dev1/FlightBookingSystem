@@ -11,5 +11,7 @@ namespace FlightBookingSystem.Repositories.Interfaces
 		Task<FlightBooking?> DeleteAsync(int id);
 
 		Task<List<FlightBooking>> GetByUserIdAsync(int id);
+
+		Task<List<FlightBooking>> GetByUserAndFlightId(int userId, int flightId);
 	}
 }

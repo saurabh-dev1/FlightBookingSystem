@@ -78,5 +78,11 @@ namespace FlightBookingSystem.Repositories
 			return booking;
 		
 		}
+
+		public async Task<List<FlightBooking>> GetByUserAndFlightId(int userId, int flightId)
+		{
+			var booking = await dbContext.FlightBookings.Where(m=>m.UserId==userId && m.FlightId==flightId).ToListAsync();
+			return booking;
+		}
 	}
 }

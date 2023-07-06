@@ -3,6 +3,7 @@ using FlightBookingSystem.Models.DTOs;
 using FlightBookingSystem.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 
 namespace FlightBookingSystem.Controllers
@@ -140,6 +141,7 @@ namespace FlightBookingSystem.Controllers
 			return Ok(userDto);
 		}
 
+		//delete user
 		[HttpDelete]
 		[Route("{id}")]
 		public async Task<IActionResult> DeleteUserAsync([FromRoute] int id)
@@ -161,6 +163,9 @@ namespace FlightBookingSystem.Controllers
 
 			return Ok(userDto);
 		}
+
 		
-    }
+
+
+	}
 }
