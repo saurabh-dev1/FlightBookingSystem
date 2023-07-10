@@ -7,6 +7,7 @@ using FlightBookingSystem.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using FlightBookingSystem.Models.DTOs;
 using System.Diagnostics;
+using FlightBookingSystem.Repositories;
 
 namespace FlightBookingSystem.Controllers
 {
@@ -293,6 +294,22 @@ namespace FlightBookingSystem.Controllers
 				AvailableSeats = flight.GetAvailableSeats()
 			};
 			return Ok(flightDto);
+		}
+
+		//Get Selected Seats
+		[HttpGet]
+		[Route("selectedSeats/{id}")]
+		public async Task<IActionResult> getSelectedSeats(int id)
+		{
+			try
+			{
+				var seat = await flightRepository.SelectedSeats(id);
+				return Ok(seat);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex);
+			}
 		}
 	}
 }

@@ -77,6 +77,7 @@ builder.Services.AddScoped<IFlightBooking, FlightBookingRepository>();
 builder.Services.AddScoped<IUser, UserRepository>();
 builder.Services.AddScoped<IPassenger, PassengerRepository>();
 builder.Services.AddScoped<IPayment, PaymentRepository>();
+builder.Services.AddScoped<IEmail, EmailRepository>();
 
 
 

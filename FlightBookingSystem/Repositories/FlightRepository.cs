@@ -1,4 +1,5 @@
-﻿using FlightBookingSystem.Data;
+﻿using Azure;
+using FlightBookingSystem.Data;
 using FlightBookingSystem.Models.Domain;
 using FlightBookingSystem.Models.DTOs;
 using FlightBookingSystem.Repositories.Interfaces;
@@ -87,6 +88,33 @@ namespace FlightBookingSystem.Repositories
 			return flightexist;
 		}
 
+		public async Task<List<string>> SelectedSeats(int id)
+		{
+			var flight = await dbContext.Flights.FirstOrDefaultAsync(m => m.FlightId == id);
+			if (flight == null)
+			{
+				return null;
+			}
 
+			var bookings = await dbContext.FlightBookings.Include(p => p.Passenger).Where(m => m.FlightId == id).ToListAsync();
+			var passengers = new List<Passenger>();
+			foreach (var booking in bookings)
+			{
+				foreach (var checkPassenger in booking.Passenger)
+				{
+					passengers.Add(checkPassenger);
+
+				}
+			}
+
+			var seats = new List<string>();
+			foreach (var passenger in passengers)
+			{
+				seats.Add(passenger.AllocatedSeat);
+			}
+
+			return seats;
+			
+		}
 	}
 }
