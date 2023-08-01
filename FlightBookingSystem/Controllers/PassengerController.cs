@@ -28,13 +28,61 @@ namespace FlightBookingSystem.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetAllAsync()
 		{
-			var passengers = await passengerRepository.GetAllAsync();
-			//Map Domain model to Dto
-
-			var passengerDto = new List<PassengerDto>();
-			foreach(var passenger in passengers)
+			try
 			{
-				passengerDto.Add(new PassengerDto()
+				var passengers = await passengerRepository.GetAllAsync();
+
+				// Map Domain model to Dto
+				var passengerDto = new List<PassengerDto>();
+				foreach (var passenger in passengers)
+				{
+					passengerDto.Add(new PassengerDto()
+					{
+						PassengerId = passenger.PassengerId,
+						FirstName = passenger.FirstName,
+						LastName = passenger.LastName,
+						Age = passenger.Age,
+						Gender = passenger.Gender,
+						PhoneNumber = passenger.PhoneNumber,
+						AllocatedSeat = passenger.AllocatedSeat,
+						UserId = passenger.UserId,
+						FlightBookingId = passenger.FlightBookingId
+					});
+				}
+
+				return Ok(passengerDto);
+			}
+			catch (Exception)
+			{
+				return StatusCode(500, "An error occurred while fetching passengers.");
+			}
+		}
+
+		//Create Passenger
+		[HttpPost]
+
+		public async Task<IActionResult> CreateAsync([FromBody] CreatePassengerDto passengerDto)
+		{
+			try
+			{
+				// Map Dto to Domain model
+				var passenger = new Passenger
+				{
+					FirstName = passengerDto.FirstName,
+					LastName = passengerDto.LastName,
+					Age = passengerDto.Age,
+					Gender = passengerDto.Gender,
+					PhoneNumber = passengerDto.PhoneNumber,
+					AllocatedSeat = passengerDto.AllocatedSeat,
+					UserId = passengerDto.UserId,
+					FlightBookingId = passengerDto.FlightBookingId
+				};
+
+				// Save the passenger entity
+				await passengerRepository.CreateAsync(passenger);
+
+				// Map Domain model back to Dto
+				var passengerDto1 = new PassengerDto
 				{
 					PassengerId = passenger.PassengerId,
 					FirstName = passenger.FirstName,
@@ -42,93 +90,34 @@ namespace FlightBookingSystem.Controllers
 					Age = passenger.Age,
 					Gender = passenger.Gender,
 					PhoneNumber = passenger.PhoneNumber,
-					AllocatedSeat=passenger.AllocatedSeat,
+					AllocatedSeat = passenger.AllocatedSeat,
 					UserId = passenger.UserId,
 					FlightBookingId = passenger.FlightBookingId
-				});
+				};
+				return Ok(passengerDto1);
 			}
-
-			return Ok(passengerDto);
+			catch (Exception )
+			{
+				return StatusCode(500, "An error occurred while creating the passenger.");
+			}
 		}
 
-		//Create Passenger
-		[HttpPost]
-		
-		public async Task<IActionResult> CreateAsync([FromBody] CreatePassengerDto passengerDto)
-		{
-			//Map Dto to Domain model
-			var passenger = new Passenger
-			{
-				
-				FirstName = passengerDto.FirstName,
-				LastName = passengerDto.LastName,
-				Age = passengerDto.Age,
-				Gender = passengerDto.Gender,
-				PhoneNumber = passengerDto.PhoneNumber,
-				AllocatedSeat=passengerDto.AllocatedSeat,
-				UserId = passengerDto.UserId,
-				FlightBookingId = passengerDto.FlightBookingId
-			};
-
-			
-
-			// Save the passenger entity
-			await passengerRepository.CreateAsync(passenger);
-
-			//Map Domain model back to Dto
-			var passengerDto1 = new PassengerDto
-			{
-				PassengerId = passenger.PassengerId,
-				FirstName = passenger.FirstName,
-				LastName = passenger.LastName,
-				Age = passenger.Age,
-				Gender = passenger.Gender,
-				PhoneNumber = passenger.PhoneNumber,
-				AllocatedSeat=passenger.AllocatedSeat,
-				UserId = passenger.UserId,
-				FlightBookingId = passenger.FlightBookingId
-			};
-			return Ok(passengerDto1);
-		}
 
 		//Get Passenger By id
 		[HttpGet]
 		[Route("{id}")]
 		public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
 		{
-			var passenger = await passengerRepository.GetByIdAsync(id);
-			if(passenger == null)
+			try
 			{
-				return NotFound();
-			}
-			// Map Domain model to Dto
-			var passengerDto = new PassengerDto
-			{
-				PassengerId = passenger.PassengerId,
-				FirstName = passenger.FirstName,
-				LastName = passenger.LastName,
-				Age = passenger.Age,
-				Gender = passenger.Gender,
-				PhoneNumber = passenger.PhoneNumber,
-				AllocatedSeat=passenger.AllocatedSeat,
-				UserId = passenger.UserId,
-				FlightBookingId = passenger.FlightBookingId
-			};
+				var passenger = await passengerRepository.GetByIdAsync(id);
+				if (passenger == null)
+				{
+					return NotFound();
+				}
 
-			return Ok(passengerDto);
-
-		}
-
-		//Get Passenger By User Id
-		[HttpGet]
-		[Route("User/{id}")]
-		public async Task<IActionResult> GetByUserIdAsync([FromRoute] int id)
-		{
-			var passengers =await passengerRepository.GetByUserIdAsync(id);
-			var passengerDto = new List<PassengerDto>();
-			foreach (var passenger in passengers)
-			{
-				passengerDto.Add(new PassengerDto()
+				// Map Domain model to Dto
+				var passengerDto = new PassengerDto
 				{
 					PassengerId = passenger.PassengerId,
 					FirstName = passenger.FirstName,
@@ -136,49 +125,91 @@ namespace FlightBookingSystem.Controllers
 					Age = passenger.Age,
 					Gender = passenger.Gender,
 					PhoneNumber = passenger.PhoneNumber,
-					AllocatedSeat=passenger.AllocatedSeat,
+					AllocatedSeat = passenger.AllocatedSeat,
 					UserId = passenger.UserId,
 					FlightBookingId = passenger.FlightBookingId
-				});
-			}
+				};
 
-			if(passengers.Count == 0)
-			{
-				return NotFound();
+				return Ok(passengerDto);
 			}
-			else if(passengers.Count == 1)
+			catch (Exception)
 			{
-				return Ok(passengerDto[0]);
+				return StatusCode(500, "An error occurred while fetching the passenger by ID.");
 			}
-			return Ok(passengerDto);
 		}
+
+
+		//Get Passenger By User Id
+		[HttpGet]
+		[Route("User/{id}")]
+		public async Task<IActionResult> GetByUserIdAsync([FromRoute] int id)
+		{
+			try
+			{
+				var passengers = await passengerRepository.GetByUserIdAsync(id);
+				var passengerDto = new List<PassengerDto>();
+				foreach (var passenger in passengers)
+				{
+					passengerDto.Add(new PassengerDto()
+					{
+						PassengerId = passenger.PassengerId,
+						FirstName = passenger.FirstName,
+						LastName = passenger.LastName,
+						Age = passenger.Age,
+						Gender = passenger.Gender,
+						PhoneNumber = passenger.PhoneNumber,
+						AllocatedSeat = passenger.AllocatedSeat,
+						UserId = passenger.UserId,
+						FlightBookingId = passenger.FlightBookingId
+					});
+				}
+
+				if (passengers.Count == 0)
+				{
+					return NotFound();
+				}
+				else if (passengers.Count == 1)
+				{
+					return Ok(passengerDto[0]);
+				}
+				return Ok(passengerDto);
+			}
+			catch (Exception)
+			{
+				return StatusCode(500, "An error occurred while fetching passengers by user ID.");
+			}
+		}
+
 
 		//Update Passenger
 		[HttpPut]
 		[Route("{id}")]
 		public async Task<IActionResult> UpdateAsync([FromRoute] int id, [FromBody] PassengerDto passengerDto)
 		{
-			//Map Dto to Domain model
-			var passenger = new Passenger()
+			try
 			{
-				PassengerId = passengerDto.PassengerId,
-				FirstName = passengerDto.FirstName,
-				LastName = passengerDto.LastName,
-				Age = passengerDto.Age,
-				Gender = passengerDto.Gender,
-				PhoneNumber = passengerDto.PhoneNumber,
-				AllocatedSeat=passengerDto.AllocatedSeat,
-				UserId = passengerDto.UserId,
-				FlightBookingId = passengerDto.FlightBookingId
-			};
+				// Map Dto to Domain model
+				var passenger = new Passenger()
+				{
+					PassengerId = passengerDto.PassengerId,
+					FirstName = passengerDto.FirstName,
+					LastName = passengerDto.LastName,
+					Age = passengerDto.Age,
+					Gender = passengerDto.Gender,
+					PhoneNumber = passengerDto.PhoneNumber,
+					AllocatedSeat = passengerDto.AllocatedSeat,
+					UserId = passengerDto.UserId,
+					FlightBookingId = passengerDto.FlightBookingId
+				};
 
-			//Check if booking exist
-			passenger = await passengerRepository.UpdateAsync(id, passenger);
-			if (passenger == null)
-			{
-				return NotFound();
-			}
-			// map Dto to Domain model
+				// Check if booking exists and update
+				passenger = await passengerRepository.UpdateAsync(id, passenger);
+				if (passenger == null)
+				{
+					return NotFound();
+				}
+
+				// Map Dto to Domain model
 				passenger.PassengerId = passengerDto.PassengerId;
 				passenger.FirstName = passengerDto.FirstName;
 				passenger.LastName = passengerDto.LastName;
@@ -189,20 +220,25 @@ namespace FlightBookingSystem.Controllers
 				passenger.UserId = passengerDto.UserId;
 				passenger.FlightBookingId = passengerDto.FlightBookingId;
 
-			//Map Domain model to Dto
-			passengerDto = new PassengerDto
+				// Map Domain model to Dto
+				passengerDto = new PassengerDto
+				{
+					PassengerId = passenger.PassengerId,
+					FirstName = passenger.FirstName,
+					LastName = passenger.LastName,
+					Age = passenger.Age,
+					Gender = passenger.Gender,
+					PhoneNumber = passenger.PhoneNumber,
+					AllocatedSeat = passenger.AllocatedSeat,
+					UserId = passenger.UserId,
+					FlightBookingId = passenger.FlightBookingId
+				};
+				return Ok(passengerDto);
+			}
+			catch (Exception)
 			{
-				PassengerId = passenger.PassengerId,
-				FirstName = passenger.FirstName,
-				LastName = passenger.LastName,
-				Age = passenger.Age,
-				Gender = passenger.Gender,
-				PhoneNumber = passenger.PhoneNumber,
-				AllocatedSeat = passenger.AllocatedSeat,
-				UserId = passenger.UserId,
-				FlightBookingId = passenger.FlightBookingId
-			};
-			return Ok(passengerDto);
+				return StatusCode(500, "An error occurred while updating the passenger.");
+			}
 		}
 
 		//Delete Passenger
@@ -210,28 +246,37 @@ namespace FlightBookingSystem.Controllers
 		[Route("{id}")]
 		public async Task<IActionResult> DeleteAsync([FromRoute] int id)
 		{
-			var passenger = await passengerRepository.DeleteAsync(id);
-			if(passenger == null)
+			try
 			{
-				return NotFound();
-			}
-			// Map Domain model to Dto
-			var passengerDto = new PassengerDto
-			{
-				PassengerId = passenger.PassengerId,
-				FirstName = passenger.FirstName,
-				LastName = passenger.LastName,
-				Age = passenger.Age,
-				Gender = passenger.Gender,
-				PhoneNumber = passenger.PhoneNumber,
-				AllocatedSeat = passenger.AllocatedSeat,
-				UserId = passenger.UserId,
-				FlightBookingId = passenger.FlightBookingId
-			};
+				var passenger = await passengerRepository.DeleteAsync(id);
+				if (passenger == null)
+				{
+					return NotFound();
+				}
 
-			return Ok(passengerDto);
+				// Map Domain model to Dto
+				var passengerDto = new PassengerDto
+				{
+					PassengerId = passenger.PassengerId,
+					FirstName = passenger.FirstName,
+					LastName = passenger.LastName,
+					Age = passenger.Age,
+					Gender = passenger.Gender,
+					PhoneNumber = passenger.PhoneNumber,
+					AllocatedSeat = passenger.AllocatedSeat,
+					UserId = passenger.UserId,
+					FlightBookingId = passenger.FlightBookingId
+				};
+
+				return Ok(passengerDto);
+			}
+			catch (Exception)
+			{
+				return StatusCode(500, "An error occurred while deleting the passenger.");
+			}
 		}
 
 
-    }
+
+	}
 }

@@ -45,9 +45,8 @@ namespace FlightBookingSystem.Controllers
 
 				return Ok(userDto);
 			}
-			catch (Exception ex)
+			catch (Exception )
 			{
-				// Handle the exception here
 				return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the request.");
 			}
 		}

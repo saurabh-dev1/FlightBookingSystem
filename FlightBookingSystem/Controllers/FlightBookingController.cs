@@ -27,242 +27,279 @@ namespace FlightBookingSystem.Controllers
 
 		// Get All Bookings
 		[HttpGet]
-		
+
 		public async Task<IActionResult> GetAll()
 		{
-			var booking = await flightBookingRepository.GetAllAsync();
-			// Map Domain Model To DTO
-
-			var bookingDto = new List<FlightBookingDto>();
-			foreach (var flightBooking in booking)
+			try
 			{
-				
-				bookingDto.Add(new FlightBookingDto()
-				{
-					FlightBookingId = flightBooking.FlightBookingId,
-					DepartureCity = flightBooking.DepartureCity,
-					ArrivalCity = flightBooking.ArrivalCity,
-					DepartureDateTime = flightBooking.DepartureDateTime,
-					ArrivalDateTime = flightBooking.ArrivalDateTime,
-					FlightId = flightBooking.FlightId,
-					UserId = flightBooking.UserId,
-					
-				}); 
-				
-			}
+				var booking = await flightBookingRepository.GetAllAsync();
 
-			return Ok(bookingDto);
-			
+				// Map Domain Model To DTO
+				var bookingDto = new List<FlightBookingDto>();
+				foreach (var flightBooking in booking)
+				{
+					bookingDto.Add(new FlightBookingDto()
+					{
+						FlightBookingId = flightBooking.FlightBookingId,
+						DepartureCity = flightBooking.DepartureCity,
+						ArrivalCity = flightBooking.ArrivalCity,
+						DepartureDateTime = flightBooking.DepartureDateTime,
+						ArrivalDateTime = flightBooking.ArrivalDateTime,
+						FlightId = flightBooking.FlightId,
+						UserId = flightBooking.UserId,
+					});
+				}
+
+				return Ok(bookingDto);
+			}
+			catch (Exception)
+			{
+				return StatusCode(500, "An error occurred while fetching flight bookings.");
+			}
 		}
+
 
 		// Get Booking By id
 		[HttpGet]
 		[Route("{id}")]
-		
+
 		public async Task<IActionResult> GetById([FromRoute] int id)
 		{
-			var booking = await flightBookingRepository.GetByIdAsync(id);
-			if (booking == null)
+			try
 			{
-				return NotFound();
-			}
+				var booking = await flightBookingRepository.GetByIdAsync(id);
+				if (booking == null)
+				{
+					return NotFound();
+				}
 
-			//Map Domain model to Dto
-			var bookingDto = new FlightBookingDto()
+				// Map Domain model to Dto
+				var bookingDto = new FlightBookingDto()
+				{
+					FlightBookingId = booking.FlightBookingId,
+					DepartureCity = booking.DepartureCity,
+					ArrivalCity = booking.ArrivalCity,
+					DepartureDateTime = booking.DepartureDateTime,
+					ArrivalDateTime = booking.ArrivalDateTime,
+					FlightId = booking.FlightId,
+					UserId = booking.UserId
+				};
+
+				return Ok(bookingDto);
+			}
+			catch (Exception)
 			{
-				FlightBookingId = booking.FlightBookingId,
-				DepartureCity = booking.DepartureCity,
-				ArrivalCity = booking.ArrivalCity,
-				DepartureDateTime = booking.DepartureDateTime,
-				ArrivalDateTime = booking.ArrivalDateTime,
-				FlightId = booking.FlightId,
-				UserId = booking.UserId
-			};
-			return Ok(bookingDto);
+				return StatusCode(500, "An error occurred while fetching the flight booking.");
+			}
 		}
 
 		//Create Bookings
-		
+
 		[HttpPost("Add")]
-		
-		public async Task<IActionResult> CreateBooking( CreateFlightBookingDto flightBookingDto)
+
+		public async Task<IActionResult> CreateBooking(CreateFlightBookingDto flightBookingDto)
 		{
-			// Map DTO to Domain model
-			var booking = new FlightBooking
+			try
 			{
-				
-				DepartureCity = flightBookingDto.DepartureCity,
-				ArrivalCity = flightBookingDto.ArrivalCity,
-				DepartureDateTime = flightBookingDto.DepartureDateTime,
-				ArrivalDateTime = flightBookingDto.ArrivalDateTime,
-				FlightId = flightBookingDto.FlightId,
-				UserId = flightBookingDto.UserId
+				// Map DTO to Domain model
+				var booking = new FlightBooking
+				{
+					DepartureCity = flightBookingDto.DepartureCity,
+					ArrivalCity = flightBookingDto.ArrivalCity,
+					DepartureDateTime = flightBookingDto.DepartureDateTime,
+					ArrivalDateTime = flightBookingDto.ArrivalDateTime,
+					FlightId = flightBookingDto.FlightId,
+					UserId = flightBookingDto.UserId
+				};
 
+				await flightBookingRepository.CreateAsync(booking);
 
-			};
+				// Map Domain model to Dto
+				var flightBookingDto1 = new FlightBookingDto
+				{
+					FlightBookingId = booking.FlightBookingId,
+					DepartureCity = booking.DepartureCity,
+					ArrivalCity = booking.ArrivalCity,
+					DepartureDateTime = booking.DepartureDateTime,
+					ArrivalDateTime = booking.ArrivalDateTime,
+					FlightId = booking.FlightId,
+					UserId = booking.UserId
+				};
 
-			await flightBookingRepository.CreateAsync(booking);
-
-			//Map Domain model to Dto
-
-			var flightBookingDto1 = new FlightBookingDto
+				return Ok(flightBookingDto1);
+			}
+			catch (Exception)
 			{
-				FlightBookingId = booking.FlightBookingId,
-				DepartureCity = booking.DepartureCity,
-				ArrivalCity = booking.ArrivalCity,
-				DepartureDateTime = booking.DepartureDateTime,
-				ArrivalDateTime = booking.ArrivalDateTime,
-				FlightId = booking.FlightId,
-				UserId = booking.UserId
-			};
-
-			return Ok(flightBookingDto1);
-
+				return StatusCode(500, "An error occurred while creating the flight booking.");
+			}
 		}
+
 
 		//Update Bookings
 
 		[HttpPut]
 		[Route("{id}")]
-		public async Task<IActionResult> UpdateBookings([FromRoute] int id ,[FromBody] FlightBookingDto flightBookingDto)
+		public async Task<IActionResult> UpdateBookings([FromRoute] int id, [FromBody] FlightBookingDto flightBookingDto)
 		{
-			//Map DTO to Domain Models
-			var booking = new FlightBooking
+			try
 			{
-				FlightBookingId = flightBookingDto.FlightBookingId,
-				DepartureCity = flightBookingDto.DepartureCity,
-				ArrivalCity = flightBookingDto.ArrivalCity,
-				DepartureDateTime = flightBookingDto.DepartureDateTime,
-				ArrivalDateTime = flightBookingDto.ArrivalDateTime,
-				FlightId = flightBookingDto.FlightId,
-				UserId = flightBookingDto.UserId
-			};
+				// Map DTO to Domain Models
+				var booking = new FlightBooking
+				{
+					FlightBookingId = flightBookingDto.FlightBookingId,
+					DepartureCity = flightBookingDto.DepartureCity,
+					ArrivalCity = flightBookingDto.ArrivalCity,
+					DepartureDateTime = flightBookingDto.DepartureDateTime,
+					ArrivalDateTime = flightBookingDto.ArrivalDateTime,
+					FlightId = flightBookingDto.FlightId,
+					UserId = flightBookingDto.UserId
+				};
 
-			//Check if booking exist
-			booking = await flightBookingRepository.UpdateAsync(id, booking);
-			if (booking == null)
-			{
-				return NotFound();
+				// Check if booking exists and update
+				booking = await flightBookingRepository.UpdateAsync(id, booking);
+				if (booking == null)
+				{
+					return NotFound();
+				}
+
+				// Map DomainModel to Dto
+				flightBookingDto = new FlightBookingDto
+				{
+					FlightBookingId = booking.FlightBookingId,
+					DepartureCity = booking.DepartureCity,
+					ArrivalCity = booking.ArrivalCity,
+					DepartureDateTime = booking.DepartureDateTime,
+					ArrivalDateTime = booking.ArrivalDateTime,
+					FlightId = booking.FlightId,
+					UserId = booking.UserId
+				};
+
+				return Ok(flightBookingDto);
 			}
-
-			//Map Dto to Domain Model
-				booking.FlightBookingId = flightBookingDto.FlightBookingId;
-				booking.DepartureCity = flightBookingDto.DepartureCity;
-				booking.ArrivalCity = flightBookingDto.ArrivalCity;
-				booking.DepartureDateTime = flightBookingDto.DepartureDateTime;
-				booking.ArrivalDateTime = flightBookingDto.ArrivalDateTime;
-			booking.FlightId = flightBookingDto.FlightId;
-			booking.UserId = flightBookingDto.UserId;
-
-			//Map DomainModel to Dto
-			flightBookingDto = new FlightBookingDto
+			catch (Exception)
 			{
-				FlightBookingId = booking.FlightBookingId,
-				DepartureCity = booking.DepartureCity,
-				ArrivalCity = booking.ArrivalCity,
-				DepartureDateTime = booking.DepartureDateTime,
-				ArrivalDateTime = booking.ArrivalDateTime,
-				FlightId = booking.FlightId,
-				UserId = booking.UserId
-			};
-
-			return Ok(flightBookingDto);
+				return StatusCode(500, "An error occurred while updating the flight booking.");
+			}
 		}
+
 
 		//Delete Bookings
 		[HttpDelete]
 		[Route("{id}")]
 		public async Task<IActionResult> DeleteBooking([FromRoute] int id)
 		{
-			var booking = await flightBookingRepository.DeleteAsync(id);
-			if (booking == null)
+			try
 			{
-				return NotFound();
+				var booking = await flightBookingRepository.DeleteAsync(id);
+				if (booking == null)
+				{
+					return NotFound();
+				}
+
+				// Convert domain model to dto
+				var bookingDto = new FlightBookingDto
+				{
+					FlightBookingId = booking.FlightBookingId,
+					DepartureCity = booking.DepartureCity,
+					ArrivalCity = booking.ArrivalCity,
+					DepartureDateTime = booking.DepartureDateTime,
+					ArrivalDateTime = booking.ArrivalDateTime,
+					FlightId = booking.FlightId,
+					UserId = booking.UserId
+				};
+
+				return Ok(bookingDto);
 			}
-
-			// Convert domain model to dto
-			var bookingDto = new FlightBookingDto
+			catch (Exception)
 			{
-				FlightBookingId = booking.FlightBookingId,
-				DepartureCity = booking.DepartureCity,
-				ArrivalCity = booking.ArrivalCity,
-				DepartureDateTime = booking.DepartureDateTime,
-				ArrivalDateTime = booking.ArrivalDateTime,
-				FlightId = booking.FlightId,
-				UserId = booking.UserId
-			};
-
-			return Ok(bookingDto);
+				return StatusCode(500, "An error occurred while deleting the flight booking.");
+			}
 		}
+
 
 		//Get Bookings By User Id
 		[HttpGet]
 		[Route("User/{id}")]
 		public async Task<IActionResult> GetByUserId([FromRoute] int id)
 		{
-			var bookings = await flightBookingRepository.GetByUserIdAsync(id);
-			var bookingDto = new List<FlightBookingDto>();
-			foreach (var booking in bookings)
+			try
 			{
-				//Map Domian model to Dto
-				bookingDto.Add(new FlightBookingDto()
+				var bookings = await flightBookingRepository.GetByUserIdAsync(id);
+				var bookingDto = new List<FlightBookingDto>();
+				foreach (var booking in bookings)
 				{
-					FlightBookingId = booking.FlightBookingId,
-					DepartureCity = booking.DepartureCity,
-					ArrivalCity = booking.ArrivalCity,
-					DepartureDateTime = booking.DepartureDateTime,
-					ArrivalDateTime = booking.ArrivalDateTime,
-					FlightId = booking.FlightId,
-					UserId = booking.UserId
-				});
+					// Map Domain model to Dto
+					bookingDto.Add(new FlightBookingDto()
+					{
+						FlightBookingId = booking.FlightBookingId,
+						DepartureCity = booking.DepartureCity,
+						ArrivalCity = booking.ArrivalCity,
+						DepartureDateTime = booking.DepartureDateTime,
+						ArrivalDateTime = booking.ArrivalDateTime,
+						FlightId = booking.FlightId,
+						UserId = booking.UserId
+					});
+				}
+
+				if (bookings.Count == 0)
+				{
+					return NotFound();
+				}
+				else if (bookings.Count == 1)
+				{
+					return Ok(bookingDto[0]);
+				}
+
+				return Ok(bookingDto);
 			}
-			if (bookings.Count == 0)
+			catch (Exception ex)
 			{
-				return NotFound();
+				return StatusCode(500, "An error occurred while fetching flight bookings by user ID.");
 			}
-
-			else if (bookings.Count == 1)
-			{
-				return Ok(bookingDto[0]);
-			}
-
-
-			return Ok(bookingDto);
 		}
 
+
+
+		// get bookings by user and flight id
 		[HttpGet]
 		[Route("{userId}/{flightId}")]
 		public async Task<IActionResult> GetByUserFlightId([FromRoute] int userId, [FromRoute] int flightId)
 		{
-			var bookings = await flightBookingRepository.GetByUserAndFlightId(userId,flightId);
-			var bookingDto = new List<FlightBookingDto>();
-
-			foreach (var booking in bookings)
+			try
 			{
-				//Map Domian model to Dto
-				bookingDto.Add(new FlightBookingDto()
+				var bookings = await flightBookingRepository.GetByUserAndFlightId(userId, flightId);
+				var bookingDto = new List<FlightBookingDto>();
+
+				foreach (var booking in bookings)
 				{
-					FlightBookingId = booking.FlightBookingId,
-					DepartureCity = booking.DepartureCity,
-					ArrivalCity = booking.ArrivalCity,
-					DepartureDateTime = booking.DepartureDateTime,
-					ArrivalDateTime = booking.ArrivalDateTime,
-					FlightId = booking.FlightId,
-					UserId = booking.UserId
-				});
+					// Map Domain model to Dto
+					bookingDto.Add(new FlightBookingDto()
+					{
+						FlightBookingId = booking.FlightBookingId,
+						DepartureCity = booking.DepartureCity,
+						ArrivalCity = booking.ArrivalCity,
+						DepartureDateTime = booking.DepartureDateTime,
+						ArrivalDateTime = booking.ArrivalDateTime,
+						FlightId = booking.FlightId,
+						UserId = booking.UserId
+					});
+				}
+
+				if (bookings.Count == 0)
+				{
+					return NotFound();
+				}
+				else if (bookings.Count == 1)
+				{
+					return Ok(bookingDto[0]);
+				}
+
+				return Ok(bookingDto);
 			}
-			if (bookings.Count == 0)
+			catch (Exception ex)
 			{
-				return NotFound();
+				return StatusCode(500, "An error occurred while fetching flight bookings by user ID and flight ID.");
 			}
-
-			else if (bookings.Count == 1)
-			{
-				return Ok(bookingDto[0]);
-			}
-
-
-			return Ok(bookingDto);
 		}
 
 	}

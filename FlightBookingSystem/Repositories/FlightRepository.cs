@@ -88,6 +88,8 @@ namespace FlightBookingSystem.Repositories
 			return flightexist;
 		}
 
+
+		//selected seats
 		public async Task<List<string>> SelectedSeats(int id)
 		{
 			var flight = await dbContext.Flights.FirstOrDefaultAsync(m => m.FlightId == id);

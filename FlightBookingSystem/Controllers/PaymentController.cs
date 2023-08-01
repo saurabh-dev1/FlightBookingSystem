@@ -23,125 +23,159 @@ namespace FlightBookingSystem.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetAllAsync()
 		{
-			var payments = await paymentReposiotry.GetAllAsync();
-			var paymentDto = new List<PaymentDto>();
-			foreach (var payment in payments)
+			try
 			{
-				paymentDto.Add(new PaymentDto() {
-					PaymentId = payment.PaymentId,
-					PayemntTime = payment.PayemntTime,
-					PaymentMethod = payment.PaymentMethod,
-					TotalPrice = payment.TotalPrice,
-					PaymentStatus = payment.PaymentStatus
-
-				});
+				var payments = await paymentReposiotry.GetAllAsync();
+				var paymentDto = new List<PaymentDto>();
+				foreach (var payment in payments)
+				{
+					paymentDto.Add(new PaymentDto()
+					{
+						PaymentId = payment.PaymentId,
+						PayemntTime = payment.PayemntTime,
+						PaymentMethod = payment.PaymentMethod,
+						TotalPrice = payment.TotalPrice,
+						PaymentStatus = payment.PaymentStatus
+					});
+				}
+				return Ok(paymentDto);
 			}
-			return Ok(paymentDto);
-
+			catch (Exception)
+			{
+				return StatusCode(500, "An error occurred while fetching payments.");
+			}
 		}
 
 		// Get By id PaymentId
 		[HttpGet]
 		[Route("{id}")]
-		public async Task<IActionResult> GetByIdAsync([FromRoute]int id)
+		public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
 		{
-			var payment = await paymentReposiotry.GetByIdAsync(id);
-			if(payment == null)
+			try
 			{
-				return NotFound();
-			}
-			var paymentDto = new PaymentDto
-			{
-				PaymentId = payment.PaymentId,
-				PayemntTime = payment.PayemntTime,
-				PaymentMethod = payment.PaymentMethod,
-				TotalPrice = payment.TotalPrice,
-				PaymentStatus = payment.PaymentStatus
-			};
-			return Ok(paymentDto);
-
-		}
-
-		//Get By Booking id
-		[HttpGet]
-		[Route("GetByBookingId/{id}")]
-		public async Task<IActionResult> GetByBookingId([FromRoute] int id)
-		{
-			var payments = await paymentReposiotry.GetByBookingIdAsync(id);
-			var paymentDto = new List<PaymentDto>();
-			foreach(var payment in payments)
-			{
-				paymentDto.Add(new PaymentDto
+				var payment = await paymentReposiotry.GetByIdAsync(id);
+				if (payment == null)
+				{
+					return NotFound();
+				}
+				var paymentDto = new PaymentDto
 				{
 					PaymentId = payment.PaymentId,
 					PayemntTime = payment.PayemntTime,
 					PaymentMethod = payment.PaymentMethod,
 					TotalPrice = payment.TotalPrice,
 					PaymentStatus = payment.PaymentStatus
-				});
+				};
+				return Ok(paymentDto);
 			}
-
-			return Ok(paymentDto);
+			catch (Exception)
+			{
+				return StatusCode(500, "An error occurred while fetching the payment by ID.");
+			}
 		}
+
+
+		//Get By Booking id
+		[HttpGet]
+		[Route("GetByBookingId/{id}")]
+		public async Task<IActionResult> GetByBookingId([FromRoute] int id)
+		{
+			try
+			{
+				var payments = await paymentReposiotry.GetByBookingIdAsync(id);
+				var paymentDto = new List<PaymentDto>();
+				foreach (var payment in payments)
+				{
+					paymentDto.Add(new PaymentDto
+					{
+						PaymentId = payment.PaymentId,
+						PayemntTime = payment.PayemntTime,
+						PaymentMethod = payment.PaymentMethod,
+						TotalPrice = payment.TotalPrice,
+						PaymentStatus = payment.PaymentStatus
+					});
+				}
+
+				return Ok(paymentDto);
+			}
+			catch (Exception)
+			{
+				return StatusCode(500, "An error occurred while fetching payments by booking ID.");
+			}
+		}
+
 
 
 		//Create Payment
 		[HttpPost("Add")]
 		public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentDto paymentDto)
 		{
-			// Map DTO to Domain model
-			var payment = new Payment
+			try
 			{
-				
-				PayemntTime = paymentDto.PayemntTime,
-				PaymentMethod = paymentDto.PaymentMethod,
-				PaymentStatus = paymentDto.PaymentStatus,
-				TotalPrice = paymentDto.TotalPrice,
-				FlightBookingId = paymentDto.FlightBookingId
-			};
+				// Map DTO to Domain model
+				var payment = new Payment
+				{
+					PayemntTime = paymentDto.PayemntTime,
+					PaymentMethod = paymentDto.PaymentMethod,
+					PaymentStatus = paymentDto.PaymentStatus,
+					TotalPrice = paymentDto.TotalPrice,
+					FlightBookingId = paymentDto.FlightBookingId
+				};
 
-			await paymentReposiotry.CreateAsync(payment);
+				await paymentReposiotry.CreateAsync(payment);
 
-			//Map Domain model to Dto
+				// Map Domain model to Dto
+				var paymentDto1 = new PaymentDto
+				{
+					PaymentId = payment.PaymentId,
+					PayemntTime = payment.PayemntTime,
+					PaymentMethod = payment.PaymentMethod,
+					PaymentStatus = payment.PaymentStatus,
+					TotalPrice = payment.TotalPrice,
+					FlightBookingId = payment.FlightBookingId
+				};
 
-			var paymentDto1 = new PaymentDto
+				return Ok(paymentDto1);
+			}
+			catch (Exception)
 			{
-				PaymentId = payment.PaymentId,
-				PayemntTime = payment.PayemntTime,
-				PaymentMethod = payment.PaymentMethod,
-				PaymentStatus = payment.PaymentStatus,
-				TotalPrice = payment.TotalPrice,
-				FlightBookingId = payment.FlightBookingId
-			};
-
-			return Ok(paymentDto1);
-
+				return StatusCode(500, "An error occurred while creating the payment.");
+			}
 		}
+
 
 		//Delete Payment
 		[HttpDelete]
 		[Route("{id}")]
 		public async Task<IActionResult> DeletePayment([FromRoute] int id)
 		{
-			var payment = await paymentReposiotry.DeleteAsync(id);
-			if (payment == null)
+			try
 			{
-				return NotFound();
+				var payment = await paymentReposiotry.DeleteAsync(id);
+				if (payment == null)
+				{
+					return NotFound();
+				}
+
+				// Convert domain model to dto
+				var paymentDto = new PaymentDto
+				{
+					PaymentId = payment.PaymentId,
+					PayemntTime = payment.PayemntTime,
+					PaymentMethod = payment.PaymentMethod,
+					PaymentStatus = payment.PaymentStatus,
+					TotalPrice = payment.TotalPrice,
+					FlightBookingId = payment.FlightBookingId
+				};
+
+				return Ok(paymentDto);
 			}
-
-			// Convert domain model to dto
-			var paymentDto = new PaymentDto
+			catch (Exception)
 			{
-				PaymentId = payment.PaymentId,
-				PayemntTime = payment.PayemntTime,
-				PaymentMethod = payment.PaymentMethod,
-				PaymentStatus = payment.PaymentStatus,
-				TotalPrice = payment.TotalPrice,
-				FlightBookingId = payment.FlightBookingId
-			};
-
-			return Ok(paymentDto);
+				return StatusCode(500, "An error occurred while deleting the payment.");
+			}
 		}
+
 
 	}
 }

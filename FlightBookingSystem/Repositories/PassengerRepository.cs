@@ -18,6 +18,21 @@ namespace FlightBookingSystem.Repositories
         public async Task<Passenger> CreateAsync(Passenger passenger)
 		{
 			await flightDbContext.Passengers.AddAsync(passenger);
+
+			var booking = await flightDbContext.FlightBookings.Where(m => m.FlightBookingId == passenger.FlightBookingId).FirstOrDefaultAsync();
+		
+			if (booking == null)
+			{
+				return null;
+			}
+			var flight = await flightDbContext.Flights.Where(m => m.FlightId == booking.FlightId).FirstOrDefaultAsync();
+
+			if (flight == null)
+			{
+				return null;
+			}
+			flight.AvailableSeats -= 1;
+			flightDbContext.Flights.Update(flight);
 			await flightDbContext.SaveChangesAsync();
 			return passenger;
 		}

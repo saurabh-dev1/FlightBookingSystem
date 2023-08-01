@@ -71,7 +71,8 @@ namespace FlightBookingSystem.Controllers
 
 			return Ok(new
 			{
-				Message = "User Registered!"
+				Message = "User Registered!",
+				
 			});
 		}
 			
@@ -113,7 +114,7 @@ namespace FlightBookingSystem.Controllers
 			var tokenDescriptor = new SecurityTokenDescriptor
 			{
 				Subject = identity,
-				Expires = DateTime.Now.AddMinutes(30),
+				Expires = DateTime.Now.AddMinutes(10),
 				SigningCredentials = credentials
 			};
 			var token = jwtTokenHandler.CreateToken(tokenDescriptor);
@@ -143,7 +144,8 @@ namespace FlightBookingSystem.Controllers
 			{
 				Token = loginDto.Token,
 				Message = user.Roles,
-				userId = user.UserId
+				userId = user.UserId,
+				email= user.EmailAddress
 				}); 
 
 
