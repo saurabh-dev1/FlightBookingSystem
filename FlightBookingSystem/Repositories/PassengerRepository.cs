@@ -50,9 +50,9 @@ namespace FlightBookingSystem.Repositories
 		}
 
 		//Get Passeneger by User ID
-		public async Task<List<Passenger>> GetByUserIdAsync(int id)
+		public async Task<List<Passenger>> GetByBookingIdAsync(int id)
 		{
-			return await flightDbContext.Passengers.Where(m => m.UserId == id).ToListAsync();
+			return await flightDbContext.Passengers.Where(m => m.FlightBookingId == id).ToListAsync();
 		}
 
 		//Update Passenger

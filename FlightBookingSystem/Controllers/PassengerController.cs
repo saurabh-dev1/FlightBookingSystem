@@ -139,14 +139,14 @@ namespace FlightBookingSystem.Controllers
 		}
 
 
-		//Get Passenger By User Id
+		//Get Passenger By Booking Id
 		[HttpGet]
-		[Route("User/{id}")]
+		[Route("FlightBooking/{id}")]
 		public async Task<IActionResult> GetByUserIdAsync([FromRoute] int id)
 		{
 			try
 			{
-				var passengers = await passengerRepository.GetByUserIdAsync(id);
+				var passengers = await passengerRepository.GetByBookingIdAsync(id);
 				var passengerDto = new List<PassengerDto>();
 				foreach (var passenger in passengers)
 				{

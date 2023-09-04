@@ -67,9 +67,6 @@ builder.Services.AddCors(option =>
 builder.Services.AddDbContext<FlightDbContext>(options => 
 options.UseSqlServer(builder.Configuration.GetConnectionString("FlightConnectionString")));
 
-builder.Services.AddDbContext<FlightAuthDbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("FlightAuthConnectionString")));
-
 //injected Interfaces and Repository 
 builder.Services.AddScoped<IFlight, FlightRepository>();
 builder.Services.AddScoped<IAdmin, AdminRepository>();

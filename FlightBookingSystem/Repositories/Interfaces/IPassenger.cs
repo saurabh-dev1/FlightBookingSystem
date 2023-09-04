@@ -6,7 +6,7 @@ namespace FlightBookingSystem.Repositories.Interfaces
 	{
 		Task<List<Passenger>> GetAllAsync();
 		Task<Passenger?> GetByIdAsync(int id);
-		Task<List<Passenger>> GetByUserIdAsync(int id);
+		Task<List<Passenger>> GetByBookingIdAsync(int id);
 		Task<Passenger> CreateAsync(Passenger passenger);
 		Task<Passenger?> UpdateAsync(int id, Passenger passenger);
 		Task<Passenger?> DeleteAsync(int id);
